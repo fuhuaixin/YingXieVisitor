@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+
+    <RadioGroup
+        android:id="@+id/rg_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_home"
+            style="@style/MainButtonStyle"
+            android:drawableTop="@drawable/selector_main_home"
+            android:drawablePadding="5dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:text="首页" />
+
+        <RadioButton
+            android:id="@+id/rb_news"
+            style="@style/MainButtonStyle"
+            android:drawableTop="@drawable/selector_main_news"
+            android:drawablePadding="5dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:text="新闻" />
+
+        <RadioButton
+            android:id="@+id/rb_near"
+            style="@style/MainButtonStyle"
+            android:drawableTop="@drawable/selector_main_near"
+            android:drawablePadding="5dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:text="附近" />
+
+        <RadioButton
+            android:id="@+id/rb_mine"
+            style="@style/MainButtonStyle"
+            android:drawableTop="@drawable/selector_main_mine"
+            android:drawablePadding="5dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:text="我的" />
+
+    </RadioGroup>
+
+</LinearLayout>
