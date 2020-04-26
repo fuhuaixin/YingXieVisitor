@@ -50,6 +50,7 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
 
             case R.id.btn_login:
                 startActivity(new Intent(SplashActivity.this,LoginActivity.class));
+                finish();
                 break;
             case R.id.tv_know_more:
 

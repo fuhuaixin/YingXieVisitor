@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="line">#E3E3E3</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="btnBlue">#449EF8</color>
     <color name="CCC">#CCCCCC</color>
     <color name="cr66">#666666</color>
     <color name="tvBlue">#2C6DFF</color>
+    <color name="tv66">#666666</color>
+    <color name="crE6">#E6E6E6</color>
+    <color name="crF2">#F2F2F2</color>
 
 </resources>

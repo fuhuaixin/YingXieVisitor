@@ -31,6 +31,12 @@
         <!--登录注册-->
         <activity android:name=".activity.LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <!--注册-->
+        <activity android:name=".activity.RegisterActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <!--忘记密码-->
+        <activity android:name=".activity.ForgetPassActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
     </application>
 

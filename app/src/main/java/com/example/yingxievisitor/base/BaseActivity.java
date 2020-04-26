@@ -42,7 +42,7 @@ public abstract class BaseActivity extends SwipeBackActivity  {
      */
     public void dialog() {
         zLoadingDialog =new  ZLoadingDialog(this);
-        zLoadingDialog.setLoadingBuilder(Z_TYPE.STAIRS_PATH)
+        zLoadingDialog.setLoadingBuilder(Z_TYPE.CHART_RECT)
                 .setLoadingColor(Color.parseColor("#eeeeee"))
                 .setHintText("加载中...")
                 .setHintTextSize(14F)
