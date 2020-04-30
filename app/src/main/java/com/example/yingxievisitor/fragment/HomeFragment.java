@@ -31,7 +31,8 @@ import java.util.List;
 
 public class HomeFragment extends BaseFragment implements View.OnClickListener{
 
-    private TextView tvHome,tv_chief_public;
+    private TextView tvHome;
+    private ImageView tv_chief_public;
     private Banner home_banner;
     private LinearLayout llOpenWifi;
     private WifiManager wifiManager; //WifiManager

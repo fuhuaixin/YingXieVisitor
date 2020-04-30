@@ -38,31 +38,22 @@
         android:layout_width="0dp"
         android:layout_height="170dp"
         android:layout_weight="1">
-        <TextView
-            android:gravity="center"
-            android:text="三维实景"
-            android:background="@mipmap/ic_shadow_bg"
+        <ImageView
+            android:src="@mipmap/ic_home_scenery"
+            android:scaleType="fitXY"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="8dp"/>
-        <TextView
-            android:gravity="center"
-            android:text="交通出行"
-            android:background="@mipmap/ic_shadow_bg"
+        <ImageView
+            android:src="@mipmap/ic_home_traffic"
+            android:scaleType="fitXY"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="8dp"/>
-        <TextView
+        <ImageView
             android:id="@+id/tv_chief_public"
-            android:gravity="center"
-            android:text="在线办事"
-            android:background="@mipmap/ic_shadow_bg"
+            android:src="@mipmap/ic_home_online"
+            android:scaleType="fitXY"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>

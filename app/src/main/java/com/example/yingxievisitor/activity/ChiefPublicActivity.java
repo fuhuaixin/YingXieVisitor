@@ -19,6 +19,9 @@ import com.example.yingxievisitor.utils.ToastUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 在线办事
+ */
 public class ChiefPublicActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView imageBack;
