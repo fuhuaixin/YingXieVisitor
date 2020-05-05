@@ -1,8 +1,13 @@
 package com.example.yingxievisitor.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.yingxievisitor.MainActivity;
 import com.example.yingxievisitor.R;
@@ -30,7 +35,7 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initData() {
-
+        GetPermission();
     }
 
     @Override
@@ -55,6 +60,21 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
             case R.id.tv_know_more:
 
                 break;
+        }
+    }
+
+
+    /**
+     * 获取定位权限
+     */
+    private void GetPermission() {
+        if (ContextCompat.checkSelfPermission(SplashActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
+            //开启定位权限,200是标识码
+            ActivityCompat.requestPermissions(SplashActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
+        } else {
+//            mLocationClient.start();// 定位SDK
+//            Toast.makeText(LoginActivity.this, "已开启定位权限", Toast.LENGTH_LONG).show();
         }
     }
 }
