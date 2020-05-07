@@ -33,10 +33,11 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_alignParentRight="true"
-                android:src="@mipmap/ic_launcher_round" />
+                android:layout_centerVertical="true"
+                android:src="@mipmap/icon_mine_header_one" />
         </RelativeLayout>
 
         <com.to.aboomy.banner.Banner

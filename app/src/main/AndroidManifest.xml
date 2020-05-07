@@ -21,6 +21,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".base.MyApp"
@@ -43,7 +44,8 @@
 
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:launchMode="singleTop">
 
         </activity>
 
@@ -71,6 +73,12 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!--在线办事-->
         <activity android:name=".activity.ChiefPublicActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <!--修改密码-->
+        <activity android:name=".activity.ChangePassActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <!--意见反馈-->
+        <activity android:name=".activity.FeedbackActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 

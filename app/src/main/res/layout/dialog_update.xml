@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:background="@mipmap/ic_update_bg"
+        android:layout_width="265dp"
+        android:layout_height="320dp">
+
+        <TextView
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="15dp"
+            android:layout_above="@+id/tv_update"
+            android:text="发现新版本升级后体验更顺"
+            android:layout_centerHorizontal="true"
+            android:textSize="14sp"
+            android:textColor="@color/cr33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_update"
+            android:layout_marginBottom="30dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingRight="40dp"
+            android:paddingLeft="40dp"
+            android:background="@drawable/shape_check_up_bg"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:textColor="#006AEF"
+            android:textSize="14sp"
+            android:text="立即更新"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/image_close"
+        android:layout_marginTop="30dp"
+        android:src="@mipmap/icon_search_x"
+        android:layout_width="30dp"
+        android:layout_height="30dp"/>
+</LinearLayout>

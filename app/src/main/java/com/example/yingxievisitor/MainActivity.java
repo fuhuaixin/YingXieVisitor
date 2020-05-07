@@ -10,11 +10,14 @@ import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.baidu.mapapi.BMapManager;
+import com.baidu.mapapi.search.busline.BusLineSearch;
 import com.example.yingxievisitor.base.BaseActivity;
 import com.example.yingxievisitor.fragment.HomeFragment;
 import com.example.yingxievisitor.fragment.MineFragment;
 import com.example.yingxievisitor.fragment.NearFragment;
 import com.example.yingxievisitor.fragment.NewsFragment;
+import com.example.yingxievisitor.utils.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -39,6 +42,10 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    public static MainActivity newInstance() {
+        BMapManager.init();
+        return new MainActivity();
+    }
     @Override
     protected int initLayout() {
         return R.layout.activity_main;
@@ -125,7 +132,7 @@ public class MainActivity extends BaseActivity {
      * @param position
      * @return
      */
-    private Fragment getFragment(int position){
+    public Fragment getFragment(int position){
         if(fragments != null && fragments.size()>0){
             Fragment baseFragment = fragments.get(position);
             return baseFragment;
@@ -139,7 +146,7 @@ public class MainActivity extends BaseActivity {
      * @param fragment
      * @param nextFragment
      */
-    private void switchFragment(Fragment fragment,Fragment nextFragment){
+    public void switchFragment(Fragment fragment, Fragment nextFragment){
         if (tempFragment != nextFragment){
             tempFragment = nextFragment;
             if (nextFragment != null){

@@ -20,6 +20,7 @@
             android:src="@mipmap/icon_mine_header_one" />
 
         <TextView
+            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="登录/注册"
@@ -70,6 +71,7 @@
         android:background="@color/crF4" />
 
     <LinearLayout
+        android:id="@+id/ll_change_pass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -191,6 +193,7 @@
         android:background="#F0F1F5" />
 
     <LinearLayout
+        android:id="@+id/ll_feedback"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -232,6 +235,7 @@
         android:background="@color/crF4" />
 
     <LinearLayout
+        android:id="@+id/ll_check"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"

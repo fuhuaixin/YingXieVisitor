@@ -8,14 +8,15 @@
         android:gravity="center_horizontal"
         android:background="@mipmap/ic_shadow_bg"
         android:layout_width="0dp"
-        android:layout_height="170dp"
+        android:layout_height="150dp"
         android:layout_weight="1.5"
         android:orientation="vertical">
         <ImageView
             android:src="@mipmap/ic_home_wifi_center"
             android:layout_width="110dp"
-            android:layout_height="110dp"/>
+            android:layout_height="90dp"/>
         <TextView
+            android:id="@+id/tv_if_wifi"
             android:textStyle="bold"
             android:textSize="14sp"
             android:textColor="@color/cr21"
@@ -23,10 +24,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
+            android:id="@+id/tv_wifi_name"
             android:layout_marginTop="5dp"
             android:textSize="13sp"
             android:textColor="@color/cr21"
-            android:text="CMCC-01"
+            android:text="未连接"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -36,7 +38,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="0dp"
-        android:layout_height="170dp"
+        android:layout_height="150dp"
         android:layout_weight="1">
         <ImageView
             android:src="@mipmap/ic_home_scenery"
@@ -45,6 +47,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"/>
         <ImageView
+            android:id="@+id/image_traffic"
             android:src="@mipmap/ic_home_traffic"
             android:scaleType="fitXY"
             android:layout_width="match_parent"

@@ -13,6 +13,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/ll_find_job"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
@@ -31,6 +32,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_used_car"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -56,6 +58,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/ll_find_home"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -74,6 +77,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_used"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -91,6 +95,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_service"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="0dp"

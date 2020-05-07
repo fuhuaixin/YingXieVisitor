@@ -13,6 +13,7 @@ import com.example.yingxievisitor.MainActivity;
 import com.example.yingxievisitor.R;
 import com.example.yingxievisitor.base.BaseActivity;
 import com.example.yingxievisitor.bean.EventBusVerifyBean;
+import com.example.yingxievisitor.utils.SPUtils;
 import com.example.yingxievisitor.view.VerifyDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -92,6 +93,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         Log.e("fhxx","获取到"+busVerifyBean.toString());
         if (busVerifyBean.getType().equals("login")&&busVerifyBean.getVerify()){
             if (et_user.getText().toString().equals("123456")&&et_password.getText().toString().equals("1234")){
+                SPUtils.putString(this,"login_user",et_user.getText().toString());
                 finish();
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
 

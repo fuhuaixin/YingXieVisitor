@@ -16,6 +16,7 @@ import com.example.yingxievisitor.MainActivity;
 import com.example.yingxievisitor.R;
 import com.example.yingxievisitor.base.BaseActivity;
 import com.example.yingxievisitor.bean.EventBusVerifyBean;
+import com.example.yingxievisitor.utils.SPUtils;
 import com.example.yingxievisitor.utils.ToastUtils;
 import com.example.yingxievisitor.view.VerifyDialog;
 
@@ -95,10 +96,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     /**
      * 判是否输入有值
      */
+    String num = "[1][356789]\\d{9}";
     private void toRegister() {
         if (et_user.getText().toString().equals("")) {
             tv_user_null.setVisibility(View.VISIBLE);
             ll_user.setBackgroundResource(R.drawable.shape_login_null_bg);
+        }else if (!et_user.getText().toString().matches(num)){
+            ToastUtils.show("请输入正确得手机号");
         } else if (et_password.getText().toString().equals("")) {
             tv_pass_null.setVisibility(View.VISIBLE);
             ll_password.setBackgroundResource(R.drawable.shape_login_null_bg);
@@ -130,6 +134,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         Log.e("fhxx", "获取到" + eventBusVerifyBean.toString());
         if (eventBusVerifyBean.getType().equals("register") && eventBusVerifyBean.getVerify()) {
             Toast.makeText(this, "注册成功", Toast.LENGTH_SHORT).show();
+            SPUtils.putString(this,"login_user",et_user.getText().toString());
+
             finish();
             startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
         }

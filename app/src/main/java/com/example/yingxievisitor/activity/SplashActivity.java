@@ -54,7 +54,7 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
                 break;
 
             case R.id.btn_login:
-                startActivity(new Intent(SplashActivity.this,LoginActivity.class));
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 finish();
                 break;
             case R.id.tv_know_more:
@@ -68,10 +68,12 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
      * 获取定位权限
      */
     private void GetPermission() {
-        if (ContextCompat.checkSelfPermission(SplashActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
+        if (ContextCompat.checkSelfPermission(SplashActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(SplashActivity.this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
             //开启定位权限,200是标识码
-            ActivityCompat.requestPermissions(SplashActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
+            ActivityCompat.requestPermissions(SplashActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            }, 200);
         } else {
 //            mLocationClient.start();// 定位SDK
 //            Toast.makeText(LoginActivity.this, "已开启定位权限", Toast.LENGTH_LONG).show();
