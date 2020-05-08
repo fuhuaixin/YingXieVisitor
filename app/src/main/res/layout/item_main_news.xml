@@ -38,17 +38,7 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <TextView
-            android:id="@+id/tv_time"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="10dp"
-            android:gravity="bottom"
-            android:maxLines="1"
-            android:text="2020-04-20"
-            android:textColor="@color/cr33"
-            android:textSize="11sp" />
+
     </LinearLayout>
 
     <TextView
@@ -66,7 +56,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp">
-
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:gravity="bottom"
+            android:maxLines="1"
+            android:text="2020-04-20"
+            android:textColor="@color/cr33"
+            android:textSize="11sp" />
         <TextView
             android:id="@+id/tv_more"
             android:layout_width="wrap_content"

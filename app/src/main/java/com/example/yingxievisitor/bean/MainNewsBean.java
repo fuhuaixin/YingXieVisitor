@@ -5,11 +5,13 @@ public class MainNewsBean {
     String title ="";
     String time ="";
     String message ="";
+    String newsId ="";
 
-    public MainNewsBean(String title, String time, String message) {
+    public MainNewsBean(String title, String time, String message,String newsId) {
         this.title = title;
         this.time = time;
         this.message = message;
+        this.newsId = newsId;
     }
 
     public String getTitle() {
@@ -34,5 +36,13 @@ public class MainNewsBean {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getNewsId() {
+        return newsId;
+    }
+
+    public void setNewsId(String newsId) {
+        this.newsId = newsId;
     }
 }

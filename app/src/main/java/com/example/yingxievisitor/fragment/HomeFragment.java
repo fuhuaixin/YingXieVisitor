@@ -20,50 +20,54 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.example.yingxievisitor.MainActivity;
 import com.example.yingxievisitor.R;
 import com.example.yingxievisitor.activity.ChiefPublicActivity;
+import com.example.yingxievisitor.activity.WebActivity;
+import com.example.yingxievisitor.app.AppUrl;
 import com.example.yingxievisitor.base.BaseFragment;
+import com.example.yingxievisitor.bean.NewsBean;
 import com.example.yingxievisitor.utils.ToastUtils;
+import com.sunfusheng.marqueeview.MarqueeView;
 import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.HolderCreator;
 import com.to.aboomy.banner.IndicatorView;
 import com.to.aboomy.banner.ScaleInTransformer;
+import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.SimpleCallBack;
+import com.zhouyou.http.exception.ApiException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends BaseFragment implements View.OnClickListener{
 
-    private TextView tvHome,tv_if_wifi,tv_wifi_name;
-    private ImageView tv_chief_public,image_traffic;
+    private TextView tv_if_wifi,tv_wifi_name;
+    private ImageView tv_chief_public,image_traffic,image_3d;
     private Banner home_banner;
     private LinearLayout llOpenWifi,ll_find_job,ll_used_car,ll_find_home,ll_used,ll_service;
     private WifiManager wifiManager; //WifiManager
     private WifiInfo connectionInfo;
-    private MainActivity mainActivity;
+    private MarqueeView marqueeView;
 
-    private static final String[] URLS = {
-            "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3210855908,3095539181&fm=26&gp=0.jpg",
-            "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2080505558,2205047574&fm=26&gp=0.jpg",
-            "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2894881224,342594760&fm=26&gp=0.jpg",
-            "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2894881224,342594760&fm=26&gp=0.jpg",
-            "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3162346827,2000964752&fm=26&gp=0.jpg"
-    };
+
     private List<String> bannerList =new ArrayList<>();
     @Override
     public int setLayoutId() {
         return R.layout.fragment_home;
     }
 
+    /**
+     * 获取wifi状态
+     */
     @Override
     public void onResume() {
         super.onResume();
        if (wifiManager!=null){
            int wifiState = wifiManager.getWifiState();
            connectionInfo= wifiManager.getConnectionInfo();
-//           connectionInfo.getPasspointProviderFriendlyName()
            Log.e("fhxx","当前wifi----》"+wifiState+"------"+connectionInfo.getSSID());
            if (wifiState==3){
                tv_if_wifi.setText("已连接WiFi");
@@ -78,7 +82,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
     @Override
     public void findViewById(View view) {
         super.findViewById(view);
-        tvHome =view.findViewById(R.id.tvHome);
         tv_if_wifi =view.findViewById(R.id.tv_if_wifi);
         tv_wifi_name =view.findViewById(R.id.tv_wifi_name);
         tv_chief_public =view.findViewById(R.id.tv_chief_public);
@@ -90,6 +93,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         ll_used =view.findViewById(R.id.ll_used);
         ll_service =view.findViewById(R.id.ll_service);
         image_traffic =view.findViewById(R.id.image_traffic);
+        image_3d =view.findViewById(R.id.image_3d);
+        marqueeView =view.findViewById(R.id.marqueeView);
         wifiManager = (WifiManager) mActivity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
     }
 
@@ -97,13 +102,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
     public void setViewData(View view) {
         super.setViewData(view);
 
-        tvHome.setText("这是HomeFragment");
-
-        for (int i = 0; i < URLS.length; i++) {
-            bannerList.add(URLS[i]);
-        }
-        setBanner();
-
+        getNews();//获取新闻列表
     }
 
     @Override
@@ -117,10 +116,23 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         ll_used.setOnClickListener(this);
         ll_service.setOnClickListener(this);
         image_traffic.setOnClickListener(this);
+        image_3d.setOnClickListener(this);
     }
 
 
+    /**
+     * 设置banner 和 文字跑马灯
+     */
     private void setBanner(){
+
+        marqueeView.startWithList(newsList);
+        marqueeView.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, TextView textView) {
+                toWeb("新闻详情",AppUrl.NewsBase+list.get(position).getNewid());
+            }
+        });
+
         final IndicatorView indicatorView = new IndicatorView(mActivity)
                 .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_CIRCLE_RECT)
                 .setIndicatorRatio(1f)
@@ -132,6 +144,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
 
         home_banner.setIndicator(indicatorView)
                 .setAutoPlay(true)
+                .setAutoTurningTime(2000)
 //                .setPageMargin(SizeUtils.dp2px(20), SizeUtils.dp2px(10))
 //                .setRoundCorners(SizeUtils.dp2px(20))
                 .setHolderCreator(new HolderCreator() {
@@ -143,7 +156,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
                         iv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ToastUtils.show(index + "");
+                                toWeb("新闻详情",AppUrl.NewsBase+list.get(index).getNewid());
                             }
                         });
                         return iv;
@@ -153,8 +166,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
                 .setRoundCorners(10f)
                 .setPages(bannerList);
     }
-    private FragmentManager manager;
-    private FragmentTransaction ft;
+
 
     @Override
     public void onClick(View v) {
@@ -197,6 +209,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
             case R.id.image_traffic:
                 ToastUtils.show("点击附近");
                 break;
+            case R.id.image_3d:
+                toWeb("三维实景","http://192.168.10.104:8080/zhjd/earthstreet.html");
+                break;
         }
     }
 
@@ -212,5 +227,49 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         startActivity(intent);
     }
 
+    /**
+     * 获取banner和滚动新闻
+     */
+    private List<String> newsList =new ArrayList<>();
+    List<NewsBean.DataBean.ListBean> list=new ArrayList<>();
+    private void getNews(){
+        EasyHttp.get(AppUrl.GetNewsList)
+                .params("page","1")
+                .params("size","4")
+                .params("isHome","1")
+                .syncRequest(false)
+                .timeStamp(true)
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        NewsBean newsBean = JSON.parseObject(s, NewsBean.class);
+                        if (newsBean.isStatus()&&newsBean!=null){
+                            list = newsBean.getData().getList();
+                            for (int i = 0; i < list.size(); i++) {
+                                bannerList.add(AppUrl.ImageBase+list.get(i).getImg());
+                                newsList.add(list.get(i).getTitle());
+                            }
+
+                            setBanner();
+                        }
+                    }
+                });
+
+    }
+
+    /**
+     * 去新闻详情页
+     */
+    private void toWeb(String title,String url){
+        Intent intent = new Intent(mActivity, WebActivity.class);
+        intent.putExtra("webUrl",url);
+        intent.putExtra("webTitle",title);
+        startActivity(intent);
+    }
 
 }

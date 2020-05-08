@@ -2,6 +2,7 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical"
     android:paddingLeft="15dp"
@@ -90,23 +91,18 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="这是一条公告内容，关于美食信息的公告。"
-                    android:textColor="@color/cr21"
-                    android:textSize="14sp" />
+                <com.sunfusheng.marqueeview.MarqueeView
+                    android:id="@+id/marqueeView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:mvAnimDuration="1000"
+                    app:mvInterval="2000"
+                    app:mvDirection="bottom_to_top"
+                    app:mvTextColor="@color/cr21"
+                    app:mvTextSize="14sp"
+                    app:mvSingleLine="true"
+                    app:mvGravity ="left"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="这是一条公告内容，关于美食信息的公告。"
-                    android:textColor="@color/cr21"
-                    android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
 

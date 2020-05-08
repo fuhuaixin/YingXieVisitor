@@ -72,22 +72,26 @@ import com.example.yingxievisitor.view.NearMessageDialog;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 附近地图fragment
+ */
 public class NearFragment extends BaseFragment implements View.OnClickListener {
 
 
-    private ImageView imageBack,image_search;
+    private ImageView imageBack, image_search, image_add_zoom, image_lose_zoom;
     private TextView tvTitle;
     private LinearLayout ll_into;
     private MapView mapView = null;
     private BaiduMap mBaiduMap;
     private LocationClient mLocationClient;
-    private LinearLayout ll_find, ll_traffic;
+    private LinearLayout ll_find, ll_traffic, ll_main_location;
     private DrawerLayout draw_layout;
     private RecyclerView recycle_near_rim;
     private NearRimAdapter nearRimAdapter;
     private boolean isFirstLoc = true; //第一次定位
     private PoiSearch poiSearch;
     private EditText et_search;
+    private MapStatus mapStatus;
 
     @Override
     public int setLayoutId() {
@@ -107,6 +111,9 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
         recycle_near_rim = view.findViewById(R.id.recycle_near_rim);
         et_search = view.findViewById(R.id.et_search);
         image_search = view.findViewById(R.id.image_search);
+        ll_main_location = view.findViewById(R.id.ll_main_location);
+        image_add_zoom = view.findViewById(R.id.image_add_zoom);
+        image_lose_zoom = view.findViewById(R.id.image_lose_zoom);
     }
 
     @Override
@@ -132,12 +139,15 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
         ll_find.setOnClickListener(this);
         ll_traffic.setOnClickListener(this);
         image_search.setOnClickListener(this);
+        ll_main_location.setOnClickListener(this);
+        image_add_zoom.setOnClickListener(this);
+        image_lose_zoom.setOnClickListener(this);
 
         et_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    isBusMarker=false;
+                    isBusMarker = false;
                     searchNear(et_search.getText().toString());
                     return true;
                 }
@@ -150,16 +160,33 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_find:
-                isBusMarker=false;
+                isBusMarker = false;
                 draw_layout.openDrawer(GravityCompat.END);
                 break;
             case R.id.ll_traffic:
-                isBusMarker=false;
+                isBusMarker = false;
                 searchNear("公交站");
                 break;
             case R.id.image_search:
-                isBusMarker=false;
+                isBusMarker = false;
                 searchNear(et_search.getText().toString());
+                break;
+            case R.id.ll_main_location:
+                mBaiduMap.clear();
+                MapStatus mMapStatus = new MapStatus.Builder()
+                        .target(myLatlng)
+                        .zoom(19)
+                        .build();
+                MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
+                mBaiduMap.setMapStatus(mMapStatusUpdate);
+                break;
+            case R.id.image_add_zoom:
+                mapStatus = mBaiduMap.getMapStatus();
+                mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(mapStatus.zoom + 1).build()));
+                break;
+            case R.id.image_lose_zoom:
+                mapStatus = mBaiduMap.getMapStatus();
+                mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(mapStatus.zoom - 1).build()));
                 break;
         }
     }
@@ -169,6 +196,7 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
      */
     private void initMap() {
         mapView.removeViewAt(1);
+        mapView.showZoomControls(false);
         mBaiduMap = mapView.getMap();
 
         mBaiduMap.setMyLocationEnabled(true);
@@ -182,7 +210,6 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
         option.setOpenGps(true); // 打开gps
         option.setCoorType("bd09ll"); // 设置坐标类型
         option.setScanSpan(1000);
-
 
         //设置locationClientOption
         mLocationClient.setLocOption(option);
@@ -242,17 +269,18 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
     /**
      * 区域检索
      */
-    private String isBus ="";
+    private String isBus = "";
+
     private void searchNear(String str) {
 
         poiSearch.setOnGetPoiSearchResultListener(poiResltListener);
-        isBus=str;
+        isBus = str;
         /**
          * 设置矩形检索区域
          */
         LatLngBounds searchBounds = new LatLngBounds.Builder()
-                .include(new LatLng(34.768242,113.721181))
-                .include(new LatLng(34.758004,113.728637))
+                .include(new LatLng(34.768242, 113.721181))
+                .include(new LatLng(34.758004, 113.728637))
                 .build();
 
         poiSearch.searchInBound(new PoiBoundSearchOption()
@@ -260,7 +288,6 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
                 .keyword(str)
                 .pageNum(0)
                 .pageCapacity(30));
-
 
     }
 
@@ -271,11 +298,11 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
 
     private List<OverlayOptions> optionsList = new ArrayList<>();
     private String busLineId;
-    private List<String> busIdList =new ArrayList<>();
+    private List<String> busIdList = new ArrayList<>();
     private OnGetPoiSearchResultListener poiResltListener = new OnGetPoiSearchResultListener() {
         @Override
         public void onGetPoiResult(PoiResult poiResult) {
-            Log.e("fhxx  poi top", poiResult.error+"  ----  "+(poiResult.error == SearchResult.ERRORNO.NO_ERROR));
+            Log.e("fhxx  poi top", poiResult.error + "  ----  " + (poiResult.error == SearchResult.ERRORNO.NO_ERROR));
 
             if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {
                 busIdList.clear();
@@ -295,17 +322,17 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
 
                 BitmapDescriptor bitmap;
 
-                if (isBus.equals("公交站")||isBus.equals("公交")){
-                    bitmap= BitmapDescriptorFactory
+                if (isBus.equals("公交站") || isBus.equals("公交")) {
+                    bitmap = BitmapDescriptorFactory
                             .fromResource(R.mipmap.icon_near_bus_location);
-                }else {
-                    bitmap= BitmapDescriptorFactory
+                } else {
+                    bitmap = BitmapDescriptorFactory
                             .fromResource(R.mipmap.icon_near_location_red_little);
                 }
                 //遍历所有POI，找到类型为公交线路的POI
                 for (PoiInfo poi : poiResult.getAllPoi()) {
-                    if (poi.getPoiDetailInfo()!=null&&poi.getPoiDetailInfo().getTag().equals("公交线路")) {
-                        Log.e("fhxx tag",poi.getPoiDetailInfo().getTag()+poi.uid);
+                    if (poi.getPoiDetailInfo() != null && poi.getPoiDetailInfo().getTag().equals("公交线路")) {
+                        Log.e("fhxx tag", poi.getPoiDetailInfo().getTag() + poi.uid);
                         //获取该条公交路线POI的UID
                         busIdList.add(poi.uid);
                         busLineId = poi.uid;
@@ -313,7 +340,7 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
                         break;
                     }
                 }
-                Log.e("fhxx",busIdList.toString());
+                Log.e("fhxx", busIdList.toString());
                 for (int i = 0; i < allPoi.size(); i++) {
                     Bundle mBundle = new Bundle();
                     mBundle.putString("title", allPoi.get(i).getName());
@@ -330,10 +357,11 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
                 }
                 mBaiduMap.addOverlays(optionsList);
                 mBaiduMap.setOnMarkerClickListener(onMarkerClickListener);
-            }else {
+            } else {
                 ToastUtils.show("附近暂无");
             }
         }
+
         @Override
         public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
         }
@@ -351,36 +379,34 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
      * marker点监听
      */
     private NearBusMessAdapter nearBusMessAdapter;
-    private List<String > busList = new ArrayList<>();
+    private List<String> busList = new ArrayList<>();
 
     private BaiduMap.OnMarkerClickListener onMarkerClickListener = new BaiduMap.OnMarkerClickListener() {
         @Override
         public boolean onMarkerClick(Marker marker) {
-            if (isBusMarker){
+            if (isBusMarker) {
                 return false;
             }
-            Boolean isbus =false;
-//            BitmapDescriptor bitmap = BitmapDescriptorFactory
-//                    .fromResource(R.mipmap.icon_near_location_red_big);
-//            marker.setIcon(bitmap);
+            Boolean isbus = false;
+
             Bundle extraInfo = marker.getExtraInfo();
             String title = extraInfo.getString("title");
             String address = extraInfo.getString("address");
             String number = extraInfo.getString("number");
             double lat = extraInfo.getDouble("lat");
             double lng = extraInfo.getDouble("lng");
-            if (isBus.equals("公交站")){
-                isbus=true;
+            if (isBus.equals("公交站")) {
+                isbus = true;
                 String[] strs = address.split(";");
-                Log.e("fhxx near dialog ", strs.length+" --- ");
+                Log.e("fhxx near dialog ", strs.length + " --- ");
                 for (int i = 0; i < strs.length; i++) {
                     busList.add(strs[i]);
                 }
-            }else {
-                isbus=false;
+            } else {
+                isbus = false;
             }
 
-            NearMessageDialog nearMessageDialog = new NearMessageDialog(mActivity,title,address,number,isbus);
+            NearMessageDialog nearMessageDialog = new NearMessageDialog(mActivity, title, address, number, isbus);
             nearMessageDialog.show();
             Window window = nearMessageDialog.getWindow();
             WindowManager.LayoutParams lp = window.getAttributes();
@@ -389,17 +415,15 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
             nearMessageDialog.getWindow().setAttributes(lp);
             RecyclerView recycle_bus = nearMessageDialog.findViewById(R.id.recycle_bus);
             recycle_bus.setLayoutManager(new LinearLayoutManager(mActivity));
-            nearBusMessAdapter =new NearBusMessAdapter(R.layout.item_near_bus_message,busList,mActivity);
+            nearBusMessAdapter = new NearBusMessAdapter(R.layout.item_near_bus_message, busList, mActivity);
             recycle_bus.setAdapter(nearBusMessAdapter);
 
             nearBusMessAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                 @Override
                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                    switch (view.getId()){
+                    switch (view.getId()) {
                         case R.id.ll_item:
                             getBusMessage(busList.get(position));
-//                            getBusMessage("64");
-//                            getBus("59b2f2fc28cd251102ec016e");
                             break;
                     }
                 }
@@ -440,28 +464,37 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
     };
 
     /**
-     *公交站查询
+     * 公交站查询
      */
-    private  void  getBusMessage(String bus){
+    private void getBusMessage(String bus) {
         poiSearch.setOnGetPoiSearchResultListener(poiResltListener);
         poiSearch.searchInCity(new PoiCitySearchOption()
-        .city("郑州")
-        .keyword(bus)
-        .scope(2));
+                .city("郑州")
+                .keyword(bus)
+                .scope(2));
     }
 
-    private void getBus(String busLineId){
-        BusLineSearch busLineSearch =BusLineSearch.newInstance();
+    /**
+     * 根据buslinid查询公交线路
+     *
+     * @param busLineId
+     */
+    private void getBus(String busLineId) {
+        BusLineSearch busLineSearch = BusLineSearch.newInstance();
         busLineSearch.setOnGetBusLineSearchResultListener(onGetBusLineSearchResultListener);
         busLineSearch.searchBusLine(new BusLineSearchOption()
-        .city("郑州")
-        .uid(busLineId));
+                .city("郑州")
+                .uid(busLineId));
 
     }
+
+    /**
+     * 公交检索监听
+     */
     private BusLineResult mBusLineResult = null; // 保存驾车/步行路线数据的变量，供浏览节点时使用
     private BusLineOverlay mBusLineOverlay; // 公交路线绘制对象
-    private Boolean isBusMarker =false;
-    private OnGetBusLineSearchResultListener onGetBusLineSearchResultListener=new OnGetBusLineSearchResultListener(){
+    private Boolean isBusMarker = false;
+    private OnGetBusLineSearchResultListener onGetBusLineSearchResultListener = new OnGetBusLineSearchResultListener() {
         @Override
         public void onGetBusLineResult(BusLineResult result) {
             if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
@@ -475,8 +508,8 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
             mBusLineOverlay.setData(result);
             mBusLineOverlay.addToMap();
             mBusLineOverlay.zoomToSpan();
-            ToastUtils.show( result.getBusLineName());
-            isBusMarker=true;
+            ToastUtils.show(result.getBusLineName());
+            isBusMarker = true;
         }
     };
 

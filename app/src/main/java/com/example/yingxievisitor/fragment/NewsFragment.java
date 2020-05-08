@@ -8,32 +8,43 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.yingxievisitor.adapter.MainNewsAdapter;
 import com.example.yingxievisitor.R;
 import com.example.yingxievisitor.activity.WebActivity;
+import com.example.yingxievisitor.app.AppUrl;
 import com.example.yingxievisitor.base.BaseFragment;
 import com.example.yingxievisitor.bean.MainNewsBean;
+import com.example.yingxievisitor.bean.NewsBean;
 import com.example.yingxievisitor.utils.ToastUtils;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.HolderCreator;
 import com.to.aboomy.banner.IndicatorView;
 import com.to.aboomy.banner.ScaleInTransformer;
+import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.SimpleCallBack;
+import com.zhouyou.http.exception.ApiException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 新闻fragment
+ * 新闻fragment  新闻类型（pianqu\zhengce）
  */
 public class NewsFragment extends BaseFragment {
     private ImageView imageBack;
     private TextView tvTitle,tv_new_news,tv_near_news;
-
+    private SmartRefreshLayout refreshLayout;
     private Banner news_banner;
     private RecyclerView new_recycle;
     private MainNewsAdapter mainNewsAdapter;
@@ -46,6 +57,8 @@ public class NewsFragment extends BaseFragment {
     };
     private List<String> bannerList =new ArrayList<>();
     private List<MainNewsBean> newsBeanList =new ArrayList<>();
+    private int chooseType =1; //1是政策 2 是片区
+    private int page =1; //第几页
     @Override
     public int setLayoutId() {
         return R.layout.fragment_news;
@@ -60,6 +73,7 @@ public class NewsFragment extends BaseFragment {
         imageBack =view.findViewById(R.id.image_back);
         news_banner =view.findViewById(R.id.news_banner);
         new_recycle =view.findViewById(R.id.new_recycle);
+        refreshLayout =view.findViewById(R.id.refreshLayout);
 
     }
 
@@ -68,14 +82,13 @@ public class NewsFragment extends BaseFragment {
         super.setViewData(view);
         tvTitle.setText("新闻");
         imageBack.setVisibility(View.GONE);
-        getNewsData(1);
 
         for (int i = 0; i < URLS.length; i++) {
             bannerList.add(URLS[i]);
         }
+        refreshLayout.setEnableRefresh(false);
+        getNews("zhengce",page);
         setBanner();
-
-
     }
 
     @Override
@@ -84,27 +97,60 @@ public class NewsFragment extends BaseFragment {
         tv_new_news.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                newsBeanList.clear();
+                chooseType=1;
+                page=1;
                 tv_new_news.setTextColor(mActivity.getResources().getColor(R.color.cr21));
                 tv_new_news.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                 tv_near_news.setTextColor(mActivity.getResources().getColor(R.color.cr33));
                 tv_near_news.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-                getNewsData(1);
-
+                getNews("zhengce",1);
             }
         });
         tv_near_news.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                newsBeanList.clear();
+                chooseType=2;
+                page=1;
                 tv_near_news.setTextColor(mActivity.getResources().getColor(R.color.cr21));
                 tv_near_news.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                 tv_new_news.setTextColor(mActivity.getResources().getColor(R.color.cr33));
                 tv_new_news.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-                getNewsData(2);
+                getNews("pianqu",1);
+
+            }
+        });
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                newsBeanList.clear();
+                page=1;
+                if (chooseType==1){
+                    getNews("zhengce",page) ;
+                }else if (chooseType==2){
+                    getNews("pianqu",page) ;
+                }
+                refreshLayout.finishLoadMore(true);
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                page ++ ;
+                if (chooseType==1){
+                    getNews("zhengce",page) ;
+                }else if (chooseType==2){
+                    getNews("pianqu",page) ;
+                }
+                refreshLayout.finishLoadMore(true);
             }
         });
     }
 
-
+    /**
+     * 设置banner
+     */
     private void setBanner(){
         final IndicatorView indicatorView = new IndicatorView(mActivity)
                 .setIndicatorStyle(IndicatorView.IndicatorStyle.INDICATOR_CIRCLE_RECT)
@@ -117,8 +163,6 @@ public class NewsFragment extends BaseFragment {
 
         news_banner.setIndicator(indicatorView)
                 .setAutoPlay(true)
-//                .setPageMargin(SizeUtils.dp2px(20), SizeUtils.dp2px(10))
-//                .setRoundCorners(SizeUtils.dp2px(20))
                 .setHolderCreator(new HolderCreator() {
                     @Override
                     public View createView(Context context, final int index, Object o) {
@@ -139,23 +183,10 @@ public class NewsFragment extends BaseFragment {
     }
 
 
-    private void getNewsData(int type){
-        newsBeanList.clear();
-        if (type==1){
-            for (int i = 0; i < 10; i++) {
-                newsBeanList.add(new MainNewsBean("郑州市信用体系总规划的批复"+i,"2020-04-2"+i,
-                        "郑州市我国重要的信用示范基地，华北地区的重要中心城市。实施要深入贯彻党额度十八大和十八届三中、五中、六中全会及中央城镇化工作会议、中央城市," +
-                                "乌拉乌拉乌拉"+i));
-            }
-
-        }else if (type==2){
-            for (int i = 0; i < 5; i++) {
-                newsBeanList.add(new MainNewsBean("新乡市信用体系总规划的批复"+i,"2021-02-1"+i,
-                        "新乡市我国重要的信用示范基地，华北地区的重要中心城市。实施要深入贯彻党额度十八大和十八届三中、五中、六中全会及中央城镇化工作会议、中央城市," +
-                                "乌拉乌拉乌拉"+i));
-            }
-        }
-
+    /**
+     * 设置recycle
+     */
+    private void getNewsData(){
         new_recycle.setLayoutManager(new LinearLayoutManager(mActivity));
         mainNewsAdapter =new MainNewsAdapter(R.layout.item_main_news,newsBeanList);
         new_recycle.setAdapter(mainNewsAdapter);
@@ -164,16 +195,49 @@ public class NewsFragment extends BaseFragment {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()){
                     case R.id.ll_item:
-//                        ToastUtils.show("点击了"+position);
                         Intent intent = new Intent(mActivity, WebActivity.class);
-                        intent.putExtra("webUrl","https://news.sina.com.cn/w/2020-04-27/doc-iircuyvh9997305.shtml");
+                        intent.putExtra("webUrl",AppUrl.NewsBase+newsBeanList.get(position).getNewsId());
+                        intent.putExtra("webTitle","新闻");
                         startActivity(intent);
                         break;
                 }
             }
         });
-
         mainNewsAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 获取新闻
+     */
+    private void getNews(String type,int page){
+        EasyHttp.get(AppUrl.GetNewsList)
+                .params("type",type)
+                .params("page", String.valueOf(page))
+                .params("size","10")
+                .syncRequest(false)
+                .timeStamp(true)
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        NewsBean newsBean = JSON.parseObject(s, NewsBean.class);
+                        if (newsBean.isStatus()&&newsBean!=null){
+                            List<NewsBean.DataBean.ListBean> list = newsBean.getData().getList();
+                            for (int i = 0; i < list.size(); i++) {
+                                newsBeanList.add(new MainNewsBean(list.get(i).getTitle(),
+                                        list.get(i).getUpdatetime(),
+                                        list.get(i).getAbstractX(),
+                                        list.get(i).getNewid()));
+                            }
+                            getNewsData();
+                        }
+                    }
+                });
+
     }
 
 }

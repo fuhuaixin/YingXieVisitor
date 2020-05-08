@@ -2,7 +2,7 @@ package com.example.yingxievisitor.utils;
 
 import android.widget.Toast;
 
-import com.example.yingxievisitor.base.MyApp;
+import com.example.yingxievisitor.app.MyApp;
 
 public class ToastUtils {
 

@@ -15,7 +15,7 @@ public class WebActivity extends BaseActivity {
     private ImageView imageBack;
     private TextView tvTitle;
     private WebView webView;
-    private String url;
+    private String url,title;
 
     @Override
     protected int initLayout() {
@@ -33,7 +33,8 @@ public class WebActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        tvTitle.setText("新闻");
+//        tvTitle.setText("新闻");
+        tvTitle.setText(getIntent().getStringExtra("webTitle"));
 
         url = getIntent().getStringExtra("webUrl");
 
@@ -48,12 +49,13 @@ public class WebActivity extends BaseActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
-                zLoadingDialog.dismiss();
                 return true;
             }
         });
 
         webView.loadUrl(url);
+
+        stopDialog();
     }
 
     @Override
@@ -64,5 +66,19 @@ public class WebActivity extends BaseActivity {
                 finish();
             }
         });
+    }
+
+    private void stopDialog(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(3000);
+                    zLoadingDialog.dismiss();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }
