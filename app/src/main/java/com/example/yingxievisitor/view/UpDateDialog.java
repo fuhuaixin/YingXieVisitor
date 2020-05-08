@@ -12,6 +12,9 @@ import androidx.annotation.NonNull;
 import com.example.yingxievisitor.R;
 import com.example.yingxievisitor.utils.ToastUtils;
 
+/**
+ * 更新弹窗
+ */
 public class UpDateDialog extends Dialog {
 
     private ImageView image_close;

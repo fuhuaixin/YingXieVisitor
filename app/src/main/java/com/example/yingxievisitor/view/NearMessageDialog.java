@@ -20,6 +20,9 @@ import com.example.yingxievisitor.utils.ToastUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 附近信息弹窗
+ */
 public class NearMessageDialog extends Dialog {
 
     private TextView tv_title,tv_address,tv_phone;
