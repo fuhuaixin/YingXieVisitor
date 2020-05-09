@@ -13,10 +13,12 @@ import android.widget.Toast;
 import com.baidu.mapapi.BMapManager;
 import com.baidu.mapapi.search.busline.BusLineSearch;
 import com.example.yingxievisitor.base.BaseActivity;
+import com.example.yingxievisitor.base.ChangeFragment;
 import com.example.yingxievisitor.fragment.HomeFragment;
 import com.example.yingxievisitor.fragment.MineFragment;
 import com.example.yingxievisitor.fragment.NearFragment;
 import com.example.yingxievisitor.fragment.NewsFragment;
+import com.example.yingxievisitor.utils.GlobalParms;
 import com.example.yingxievisitor.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -42,10 +44,7 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    public static MainActivity newInstance() {
-        BMapManager.init();
-        return new MainActivity();
-    }
+
     @Override
     protected int initLayout() {
         return R.layout.activity_main;
@@ -66,6 +65,17 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initData() {
         initFragment();
+
+        GlobalParms.setFragmentSelected(new ChangeFragment() {
+            @Override
+            public void changge(int postion) {
+                if (postion==2){
+                    rgMain.check(R.id.rb_near);
+                    switchFragment(tempFragment,new NearFragment());
+                }
+
+            }
+        });
     }
 
     @Override

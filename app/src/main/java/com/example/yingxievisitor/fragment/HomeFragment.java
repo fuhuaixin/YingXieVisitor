@@ -30,6 +30,7 @@ import com.example.yingxievisitor.app.AppUrl;
 import com.example.yingxievisitor.base.BaseFragment;
 import com.example.yingxievisitor.bean.EnvironmentBean;
 import com.example.yingxievisitor.bean.NewsBean;
+import com.example.yingxievisitor.utils.GlobalParms;
 import com.example.yingxievisitor.utils.ToastUtils;
 import com.sunfusheng.marqueeview.MarqueeView;
 import com.to.aboomy.banner.Banner;
@@ -186,7 +187,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
                 String substring = connectionInfo.getSSID().substring(1, length-1);
                 Log.e("fhxx  ssid",substring+ substring.equals("YXLJD") +"");
                 if (connectionInfo.getSSID()!=null&&substring.equals("YXLJD")){
-//                    toBrowser(""); //去认证界面
                     ToastUtils.show("取认证界面");
                 }else {
                     startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
@@ -216,10 +216,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
 
                 break;
             case R.id.image_traffic:
-                ToastUtils.show("点击附近");
+                GlobalParms.sChangeFragment.changge(2);
                 break;
             case R.id.image_3d:
-                toWeb("三维实景","http://192.168.10.104:8080/zhjd/earthstreet.html");
+                toWeb("三维实景",AppUrl.BaseURLTest2+"zhjd/earthstreet.html");
                 break;
         }
     }
