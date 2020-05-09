@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat;
 import com.example.yingxievisitor.MainActivity;
 import com.example.yingxievisitor.R;
 import com.example.yingxievisitor.base.BaseActivity;
+import com.example.yingxievisitor.utils.SPUtils;
 
 /**
  * 闪屏页
@@ -49,6 +50,7 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_jump:
+                SPUtils.putBoolean(SplashActivity.this, "loginStatus",false);
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 finish();
                 break;

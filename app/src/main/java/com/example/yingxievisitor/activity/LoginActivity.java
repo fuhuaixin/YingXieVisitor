@@ -9,12 +9,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.example.yingxievisitor.MainActivity;
 import com.example.yingxievisitor.R;
+import com.example.yingxievisitor.app.AppUrl;
 import com.example.yingxievisitor.base.BaseActivity;
 import com.example.yingxievisitor.bean.EventBusVerifyBean;
+import com.example.yingxievisitor.bean.GMBean;
 import com.example.yingxievisitor.utils.SPUtils;
+import com.example.yingxievisitor.utils.ToastUtils;
 import com.example.yingxievisitor.view.VerifyDialog;
+import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.SimpleCallBack;
+import com.zhouyou.http.exception.ApiException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -54,6 +61,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void initData() {
         EventBus.getDefault().register(this);
         verifyDialog = new VerifyDialog(this, R.style.dialog,"login");
+        String login_user = SPUtils.getString(this, "login_user");
+        if (login_user!=null &&!login_user.equals("")){
+            et_user.setText(login_user);
+        }
 
     }
 
@@ -92,14 +103,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void getVerify(EventBusVerifyBean busVerifyBean) {
         Log.e("fhxx","获取到"+busVerifyBean.toString());
         if (busVerifyBean.getType().equals("login")&&busVerifyBean.getVerify()){
-            if (et_user.getText().toString().equals("123456")&&et_password.getText().toString().equals("1234")){
-                SPUtils.putString(this,"login_user",et_user.getText().toString());
-                finish();
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-
-            }else {
-                Toast.makeText(this, "账号或密码错误", Toast.LENGTH_SHORT).show();
-            }
+            Login(et_user.getText().toString(),et_password.getText().toString());
         }
     }
 
@@ -124,6 +128,37 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         super.onDestroy();
         EventBus.getDefault().unregister(this);
 
+    }
+
+    /**
+     * 登录
+     */
+    private void Login(final String userName, final String passWord){
+        EasyHttp.get(AppUrl.Login)
+                .params("username",userName)
+                .params("password",passWord)
+                .syncRequest(false)
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        GMBean gmBean = JSON.parseObject(s, GMBean.class);
+                        if (gmBean.isStatus()){
+                            ToastUtils.show("登录成功");
+                            SPUtils.putBoolean(LoginActivity.this, "loginStatus",gmBean.isStatus());
+                            SPUtils.putString(LoginActivity.this, "login_user", userName);
+                            SPUtils.putString(LoginActivity.this, "login_password", passWord);
+                            finish();
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        }else {
+                            ToastUtils.show(gmBean.getMessage());
+                        }
+                    }
+                });
     }
 
 }

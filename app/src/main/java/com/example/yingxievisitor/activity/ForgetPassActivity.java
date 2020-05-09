@@ -16,12 +16,18 @@ import android.widget.TextView;
 
 import androidx.core.app.ActivityCompat;
 
+import com.alibaba.fastjson.JSON;
 import com.example.yingxievisitor.R;
+import com.example.yingxievisitor.app.AppUrl;
 import com.example.yingxievisitor.base.BaseActivity;
 import com.example.yingxievisitor.bean.EventBusVerifyBean;
+import com.example.yingxievisitor.bean.GMBean;
 import com.example.yingxievisitor.utils.SPUtils;
 import com.example.yingxievisitor.utils.ToastUtils;
 import com.example.yingxievisitor.view.VerifyDialog;
+import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.SimpleCallBack;
+import com.zhouyou.http.exception.ApiException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -75,26 +81,6 @@ public class ForgetPassActivity extends BaseActivity implements View.OnClickList
         image_clean_user.setOnClickListener(this);
         btn_commit.setOnClickListener(this);
 
-      /*  et_user.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.toString().length() > 0) {
-                    image_clean_user.setVisibility(View.VISIBLE);
-                } else {
-                    image_clean_user.setVisibility(View.GONE);
-                }
-            }
-        });*/
     }
 
     @Override
@@ -130,8 +116,7 @@ public class ForgetPassActivity extends BaseActivity implements View.OnClickList
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void commitPass(EventBusVerifyBean busVerifyBean) {
         if (busVerifyBean.getType().equals("forget") && busVerifyBean.getVerify()) {
-            ToastUtils.show("修改成功，请登录");
-            finish();
+            ResetPassWord(tv_user.getText().toString(),et_password.getText().toString());
         }
     }
 
@@ -139,5 +124,33 @@ public class ForgetPassActivity extends BaseActivity implements View.OnClickList
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    /**
+     * 修改密码
+     * @param userName
+     * @param passWord
+     */
+    private void ResetPassWord(String userName,String passWord){
+
+        EasyHttp.get(AppUrl.ResetPassword)
+                .params("username",userName)
+                .params("password",passWord)
+                .syncRequest(false)
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+                        ToastUtils.show("网络错误");
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        GMBean gmBean = JSON.parseObject(s, GMBean.class);
+                        if (gmBean.isStatus()){
+                            ToastUtils.show("修改成功");
+                            finish();
+                        }
+                    }
+                });
     }
 }

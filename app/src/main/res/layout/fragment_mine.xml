@@ -8,10 +8,11 @@
     <include layout="@layout/layout_activity_title" />
 
     <LinearLayout
+        android:id="@+id/ll_tologin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="20dp"
+        android:paddingLeft="25dp"
+        android:paddingTop="20dp"
         android:gravity="center_vertical">
 
         <ImageView
@@ -20,6 +21,7 @@
             android:src="@mipmap/icon_mine_header_one" />
 
         <TextView
+            android:id="@+id/tv_userName"
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -275,6 +277,7 @@
         android:background="#F0F1F5" />
 
     <LinearLayout
+        android:id="@+id/ll_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"

@@ -19,8 +19,10 @@ public class UpDateDialog extends Dialog {
 
     private ImageView image_close;
     private TextView tv_update;
+    private Context mContext;
     public UpDateDialog(@NonNull Context context, int themeResId) {
         super(context, themeResId);
+        this.mContext =context;
     }
 
     @Override
@@ -38,8 +40,8 @@ public class UpDateDialog extends Dialog {
         tv_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.show("去更新");
-                dismiss();
+
+
             }
         });
     }

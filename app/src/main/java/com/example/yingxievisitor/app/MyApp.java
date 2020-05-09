@@ -20,6 +20,8 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.cache.converter.SerializableDiskConverter;
 
+import update.UpdateAppUtils;
+
 /**
  *初始化尽量放在这边，提前初始化
  */
@@ -49,6 +51,7 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         myApplication=getApplicationContext();
+        UpdateAppUtils.init(myApplication);
         SDKInitializer.initialize(myApplication);
         SDKInitializer.setCoordType(CoordType.BD09LL);
         EasyHttp.init(this);

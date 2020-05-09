@@ -12,9 +12,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.alibaba.fastjson.JSON;
 import com.example.yingxievisitor.R;
+import com.example.yingxievisitor.app.AppUrl;
 import com.example.yingxievisitor.base.BaseActivity;
+import com.example.yingxievisitor.bean.GMBean;
+import com.example.yingxievisitor.utils.SPUtils;
 import com.example.yingxievisitor.utils.ToastUtils;
+import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.SimpleCallBack;
+import com.zhouyou.http.exception.ApiException;
 
 /**
  * 修改密码
@@ -74,6 +81,11 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
                     tv_old_tip.setText("请输入密码");
                     return;
                 }
+                if (!et_old_pass.getText().toString().equals(SPUtils.getString(ChangePassActivity.this,"login_password"))){
+                    tv_old_tip.setVisibility(View.VISIBLE);
+                    tv_old_tip.setText("旧密码不正确");
+                    return;
+                }
                 if (et_new_pass.getText().toString().equals("")){
                     tv_new_tip.setVisibility(View.VISIBLE);
                     tv_new_tip.setText("请输入新密码");
@@ -89,8 +101,10 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
                     tv_new_tip.setText("两次输入密码不一致");
                     return;
                 }
-                mDialog.show();
 
+//
+
+                ResetPassWord(SPUtils.getString(ChangePassActivity.this,"login_user"),et_new_pass.getText().toString());
                 break;
         }
     }
@@ -122,4 +136,32 @@ public class ChangePassActivity extends BaseActivity implements View.OnClickList
             });
         }
     }
+
+    /**
+     * 修改密码
+     * @param userName
+     * @param passWord
+     */
+    private void ResetPassWord(String userName,String passWord){
+
+        EasyHttp.get(AppUrl.ResetPassword)
+                .params("username",userName)
+                .params("password",passWord)
+                .syncRequest(false)
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+                        ToastUtils.show("网络错误");
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        GMBean gmBean = JSON.parseObject(s, GMBean.class);
+                        if (gmBean.isStatus()){
+                            mDialog.show();
+                        }
+                    }
+                });
+    }
+
 }

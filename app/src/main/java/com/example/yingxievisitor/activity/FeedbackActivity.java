@@ -7,16 +7,23 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.example.yingxievisitor.R;
+import com.example.yingxievisitor.app.AppUrl;
 import com.example.yingxievisitor.base.BaseActivity;
+import com.example.yingxievisitor.bean.GMBean;
+import com.example.yingxievisitor.utils.SPUtils;
 import com.example.yingxievisitor.utils.ToastUtils;
+import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.SimpleCallBack;
+import com.zhouyou.http.exception.ApiException;
 
 /**
  * 意见反馈界面
  */
 public class FeedbackActivity extends BaseActivity implements View.OnClickListener {
 
-    private TextView tvTitle,tv_commit,tv_length;
+    private TextView tvTitle, tv_commit, tv_length;
     private ImageView imageBack;
     private EditText et_message;
 
@@ -58,11 +65,11 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
 
             @Override
             public void afterTextChanged(Editable s) {
-                tv_length.setText(s.toString().length()+"/200");
-                if (s.toString().length()>0){
+                tv_length.setText(s.toString().length() + "/200");
+                if (s.toString().length() > 0) {
                     tv_commit.setClickable(true);
                     tv_commit.setBackgroundResource(R.drawable.shape_commit_sel);
-                }else {
+                } else {
                     tv_commit.setClickable(false);
                     tv_commit.setBackgroundResource(R.drawable.shape_commit_unsel);
                 }
@@ -72,13 +79,37 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.image_back:
                 finish();
                 break;
             case R.id.tv_commit:
-                ToastUtils.show("提交成功");
+                submit(et_message.getText().toString());
                 break;
         }
+    }
+
+    private void submit(String content) {
+        EasyHttp.post(AppUrl.FeedbackSubmit)
+                .params("userid", SPUtils.getString(FeedbackActivity.this, "login_user"))
+                .params("content", content)
+                .params("flag", "client")
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+                        ToastUtils.show("网络错误");
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        GMBean gmBean = JSON.parseObject(s, GMBean.class);
+                        if (gmBean.isStatus()) {
+                            ToastUtils.show("提交成功");
+                            finish();
+                        } else {
+                            ToastUtils.show("提交失败");
+                        }
+                    }
+                });
     }
 }

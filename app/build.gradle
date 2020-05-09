@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.yingxievisitor"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -71,4 +71,6 @@ dependencies {
     implementation 'com.sunfusheng:MarqueeView:1.4.1'
     //下拉刷新 https://github.com/scwang90/SmartRefreshLayout
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
+    //https://github.com/teprinciple/UpdateAppUtils
+    implementation 'com.teprinciple:updateapputilsx:2.3.0'
 }

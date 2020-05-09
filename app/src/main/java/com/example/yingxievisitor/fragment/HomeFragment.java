@@ -28,6 +28,7 @@ import com.example.yingxievisitor.activity.ChiefPublicActivity;
 import com.example.yingxievisitor.activity.WebActivity;
 import com.example.yingxievisitor.app.AppUrl;
 import com.example.yingxievisitor.base.BaseFragment;
+import com.example.yingxievisitor.bean.EnvironmentBean;
 import com.example.yingxievisitor.bean.NewsBean;
 import com.example.yingxievisitor.utils.ToastUtils;
 import com.sunfusheng.marqueeview.MarqueeView;
@@ -51,6 +52,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
     private WifiManager wifiManager; //WifiManager
     private WifiInfo connectionInfo;
     private MarqueeView marqueeView;
+    private TextView tv_tem,tv_windirection,tv_humidity,tv_pm,tv_rainvalue;
+
 
 
     private List<String> bannerList =new ArrayList<>();
@@ -83,6 +86,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
     public void findViewById(View view) {
         super.findViewById(view);
         tv_if_wifi =view.findViewById(R.id.tv_if_wifi);
+        tv_rainvalue =view.findViewById(R.id.tv_rainvalue);
+        tv_humidity =view.findViewById(R.id.tv_humidity);
+        tv_pm =view.findViewById(R.id.tv_pm);
+        tv_windirection =view.findViewById(R.id.tv_windirection);
+        tv_tem =view.findViewById(R.id.tv_tem);
         tv_wifi_name =view.findViewById(R.id.tv_wifi_name);
         tv_chief_public =view.findViewById(R.id.tv_chief_public);
         home_banner =view.findViewById(R.id.home_banner);
@@ -103,6 +111,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         super.setViewData(view);
 
         getNews();//获取新闻列表
+        Environment();
     }
 
     @Override
@@ -270,6 +279,38 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         intent.putExtra("webUrl",url);
         intent.putExtra("webTitle",title);
         startActivity(intent);
+    }
+
+
+    /**
+     * 获取实时环境信息
+     */
+    private void Environment() {
+        EasyHttp.get(AppUrl.RealEnvironment)
+                .syncRequest(false)
+                .timeStamp(true)
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        EnvironmentBean environmentBean = JSON.parseObject(s, EnvironmentBean.class);
+
+                        if (environmentBean.isStatus()&&environmentBean.getData()!=null&&!environmentBean.getData().equals("")) {
+
+                            EnvironmentBean.DataBean.MonitorBean monitor = environmentBean.getData().getMonitor();
+                            EnvironmentBean.DataBean.WeatherBean weather = environmentBean.getData().getWeather();
+                            tv_tem.setText(weather.getTem() + "℃");
+                            tv_windirection.setText(weather.getWin());
+                            tv_humidity.setText(weather.getHumidity());
+                            tv_pm.setText(weather.getAir_pm25());
+                            tv_rainvalue.setText(monitor.getRainvalue());
+
+                        }
+                    }
+                });
     }
 
 }

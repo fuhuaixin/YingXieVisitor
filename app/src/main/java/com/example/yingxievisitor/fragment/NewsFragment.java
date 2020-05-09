@@ -49,13 +49,11 @@ public class NewsFragment extends BaseFragment {
     private RecyclerView new_recycle;
     private MainNewsAdapter mainNewsAdapter;
 
-    private static final String[] URLS = {
-            "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2860421298,3956393162&fm=26&gp=0.jpg",
-            "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=163638141,898531478&fm=26&gp=0.jpg",
-            "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1028426622,4209712325&fm=26&gp=0.jpg",
-            "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1462142898,440466184&fm=26&gp=0.jpg"
+    private static final Integer[] URLS = {
+            R.drawable.image_near_banner_zc,
+            R.drawable.image_near_banner_pq
     };
-    private List<String> bannerList =new ArrayList<>();
+    private List<Integer> bannerList =new ArrayList<>();
     private List<MainNewsBean> newsBeanList =new ArrayList<>();
     private int chooseType =1; //1是政策 2 是片区
     private int page =1; //第几页
@@ -172,12 +170,13 @@ public class NewsFragment extends BaseFragment {
                         iv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ToastUtils.show(index + "");
+//                                ToastUtils.show(index + "");
                             }
                         });
                         return iv;
                     }
                 })
+                .setAutoTurningTime(2000)
                 .setPageTransformer(true,new ScaleInTransformer())
                 .setPages(bannerList);
     }

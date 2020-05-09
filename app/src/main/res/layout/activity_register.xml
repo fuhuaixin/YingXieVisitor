@@ -61,7 +61,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:background="@null"
-                android:hint="请输入账号"
+                android:hint="请输入手机号"
                 android:maxLength="11"
                 android:textColorHint="@color/tv66"
                 android:textSize="12sp" />

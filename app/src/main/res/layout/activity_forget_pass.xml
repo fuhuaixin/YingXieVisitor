@@ -36,13 +36,13 @@
                 android:background="@color/crF2" />
 
             <TextView
-                android:gravity="center_vertical"
                 android:id="@+id/tv_user"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:textSize="12sp" />
 
             <ImageView

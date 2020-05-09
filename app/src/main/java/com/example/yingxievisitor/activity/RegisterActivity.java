@@ -12,13 +12,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.example.yingxievisitor.MainActivity;
 import com.example.yingxievisitor.R;
+import com.example.yingxievisitor.app.AppUrl;
 import com.example.yingxievisitor.base.BaseActivity;
 import com.example.yingxievisitor.bean.EventBusVerifyBean;
+import com.example.yingxievisitor.bean.GMBean;
 import com.example.yingxievisitor.utils.SPUtils;
 import com.example.yingxievisitor.utils.ToastUtils;
 import com.example.yingxievisitor.view.VerifyDialog;
+import com.zhouyou.http.EasyHttp;
+import com.zhouyou.http.callback.SimpleCallBack;
+import com.zhouyou.http.exception.ApiException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -89,6 +95,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 } else {
                     image_clean_user.setVisibility(View.GONE);
                 }
+                if (s.toString().length() ==11) {
+                    if (et_user.getText().toString().matches(num)){
+                        CheckExist(s.toString());
+                    }else {
+                        ToastUtils.show("请输入正确的手机号");
+                    }
+                }
             }
         });
     }
@@ -97,11 +110,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
      * 判是否输入有值
      */
     String num = "[1][356789]\\d{9}";
+
     private void toRegister() {
         if (et_user.getText().toString().equals("")) {
             tv_user_null.setVisibility(View.VISIBLE);
             ll_user.setBackgroundResource(R.drawable.shape_login_null_bg);
-        }else if (!et_user.getText().toString().matches(num)){
+        } else if (!et_user.getText().toString().matches(num)) {
             ToastUtils.show("请输入正确得手机号");
         } else if (et_password.getText().toString().equals("")) {
             tv_pass_null.setVisibility(View.VISIBLE);
@@ -133,11 +147,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     public void getVerify(EventBusVerifyBean eventBusVerifyBean) {
         Log.e("fhxx", "获取到" + eventBusVerifyBean.toString());
         if (eventBusVerifyBean.getType().equals("register") && eventBusVerifyBean.getVerify()) {
-            Toast.makeText(this, "注册成功", Toast.LENGTH_SHORT).show();
-            SPUtils.putString(this,"login_user",et_user.getText().toString());
-
-            finish();
-            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            Register(et_user.getText().toString(), et_password.getText().toString());
         }
     }
 
@@ -158,4 +168,65 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
+
+    /**
+     * 检查是否注册
+     */
+    private void CheckExist(String userName) {
+        EasyHttp.get(AppUrl.CheckExist)
+                .params("username", userName)
+                .syncRequest(false)
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+                        ToastUtils.show("网络错误");
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        GMBean gmBean = JSON.parseObject(s, GMBean.class);
+                        if (!gmBean.isStatus()) {
+                            ToastUtils.show(gmBean.getMessage());
+                        } else {
+                            ToastUtils.show("该账号可以使用");
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 注册
+     */
+
+    private void Register(String userName, String passWord) {
+        EasyHttp.get(AppUrl.Register)
+                .params("username", userName)
+                .params("password", passWord)
+                .syncRequest(false)
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+                        ToastUtils.show("网络错误");
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        GMBean gmBean = JSON.parseObject(s, GMBean.class);
+                        if (gmBean.isStatus()) {
+                            ToastUtils.show("注册成功");
+                            SPUtils.putString(RegisterActivity.this, "login_user", et_user.getText().toString());
+
+                            finish();
+                            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                        } else {
+                            ToastUtils.show("注册失败");
+                        }
+
+
+
+                    }
+                });
+    }
+
 }
