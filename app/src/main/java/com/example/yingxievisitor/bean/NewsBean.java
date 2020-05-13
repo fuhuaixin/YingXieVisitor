@@ -92,7 +92,7 @@ public class NewsBean {
              * newid : 077e94b1-e001-4f12-9c94-4edfca91a082
              * showinindex : 1
              * source : 中原网讯 (于露 通讯员 刘得杰)
-             * abstract :
+             * summary :
              * title : 金水区未来路街道举办大型应急演练活动
              * updatetime : 2020-05-12
              * content : <section data-role="outer" label="Powered by 365editor" style="font-family:微软雅黑;font-size:16px;"><p style="font-size: 16px; line-height: 24px; color: rgb(51, 51, 51); text-align: justify; text-indent: 2em; margin-top: 5px; margin-bottom: 5px;"><span style="font-size: 16px;">“我宣布，应急演练活动现在开始!”8月15日上午，金水区未来路街道“迎民族盛会 庆七十华诞”大型应急演练活动在郑州建国饭店正式拉开帷幕。</span></p><p style="font-size: 16px; line-height: 24px; color: rgb(51, 51, 51); text-align: justify; text-indent: 2em; margin-top: 5px; margin-bottom: 5px;"><span style="font-size: 16px;">此次演练共分为两个部分：疏散逃生和灭火救援。</span></p><p><img class="normal" width="480px" data-loadfunc="0" src="https://pics1.baidu.com/feed/e1fe9925bc315c60abc6743b0efd841648547760.jpeg?token=3153d3c5a02703744c342e0bd9ade9ff&amp;s=3280984F0A72379EDE39A11C03004093" data-loaded="0" style="border: 0px; display: block; margin-right: auto; margin-left: auto; max-width: 100%; height: auto;"></p><p style="font-size: 16px; line-height: 24px; color: rgb(51, 51, 51); text-align: justify; text-indent: 2em; margin-top: 5px; margin-bottom: 5px;"><span style="font-size: 16px;">演练现场，会议大厅一角突发火情，烟雾突起并逐渐扩散，不多时整个大厅便被烟雾笼罩，浓烟滚滚，呛的人睁不开眼睛。此时，各救援小组纷纷行动紧急救援：灭火组携带灭火器和消防设备迅速灭火;急救组抬着担架，前往火灾现场急救伤员;酒店安保人员立即对场内人员进行紧急疏散，手持高音喇叭，引导人员分批逃出会场。大家沉着冷静，湿毛巾捂着口鼻，猫腰前进，整个逃生过程沉稳有序，短时间内全部安全到达外边的空旷地带。</span></p><p style="font-size: 16px; line-height: 24px; color: rgb(51, 51, 51); text-align: justify; text-indent: 2em; margin-top: 5px; margin-bottom: 5px;"><span style="font-size: 16px;">在酒店另一处，五楼一客房起火，针对此次高层火灾，黄河路中队和曼哈顿救援站队员第一时间冲进现场，一部分队员对酒店里的被困人员进行紧急救援;另一部分队员在现场指挥员的指挥下利用大型高压喷水车对高层建筑起火点进行喷水灭火，并时刻观察火情动态，做好现场记录，随时进行汇报。全体队员按照实战演习的要求，紧张有序、动作迅速，经过短短几分钟的紧张“战斗”，火情被成功扑灭。</span></p><p><img class="normal" width="480px" data-loadfunc="0" src="https://pics7.baidu.com/feed/d788d43f8794a4c2931ec03e8cb854d0ad6e39b3.jpeg?token=fc996cbc0c6243daf1883c5955b86dad&amp;s=F208BE472273639E8A2EE9260300F05B" data-loaded="0" style="border: 0px; display: block; margin-right: auto; margin-left: auto; max-width: 100%; height: auto;"></p><p style="font-size: 16px; line-height: 24px; color: rgb(51, 51, 51); text-align: justify; text-indent: 2em; margin-top: 5px; margin-bottom: 5px;"><span style="font-size: 16px;">“此次应急演练活动给我们上了一堂生动的安全教育课，切实提高了我们的消防安全意识和逃生自救能力。”参与此次演练的一名酒店员工说。</span></p><p style="font-size: 16px; line-height: 24px; color: rgb(51, 51, 51); text-align: justify; text-indent: 2em; margin-top: 5px; margin-bottom: 5px;"><span style="font-size: 16px;">据悉，此次演练活动，是未来路街道办事处在第十一届少数民族传统体育运动会到来前专门组织的，旨在进一步提高辖区的安全生产管理水平、净化消防安全环境。活动现场，来自郑州市公安局未来路分局、金水区消防大队黄河路中队、未来路街道机关、辖区各社区、金水巡防队等多个部门和单位的200余名同志临阵以待，共同参与其中。</span></p><p style="font-size: 16px; line-height: 24px; color: rgb(51, 51, 51); text-align: justify; text-indent: 2em; margin-top: 5px; margin-bottom: 5px;"><span style="font-size: 16px;">此次应急演练的举办展现了未来路街道保障辖区安全稳定的决心和实力，同时，未来路街道也会以此次演练为契机，持续不停地为第十一届少数民族传统体育运动会的顺利举行保驾护航。</span></p></section>
@@ -103,8 +103,7 @@ public class NewsBean {
             private String newid;
             private String showinindex;
             private String source;
-            @SerializedName("abstract")
-            private String abstractX;
+            private String summary;
             private String title;
             private String updatetime;
             private String content;
@@ -149,12 +148,12 @@ public class NewsBean {
                 this.source = source;
             }
 
-            public String getAbstractX() {
-                return abstractX;
+            public String getSummary() {
+                return summary;
             }
 
-            public void setAbstractX(String abstractX) {
-                this.abstractX = abstractX;
+            public void setSummary(String summary) {
+                this.summary = summary;
             }
 
             public String getTitle() {

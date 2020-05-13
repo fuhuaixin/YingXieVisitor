@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:text="智慧街道三维可视化平台"
+        android:text="智慧英协"
         android:textColor="@color/white"
         android:textSize="21sp"
         android:textStyle="bold" />

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="190dp">
 
     <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:padding="10dp"
         android:background="@drawable/shape_main_search_bg"
         android:orientation="vertical"
@@ -79,7 +81,7 @@
                     android:layout_margin="10dp"
                     android:textSize="14sp"
                     android:textColor="@color/cr66"
-                    android:text="未知"
+                    android:text="营业时间：未知"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 

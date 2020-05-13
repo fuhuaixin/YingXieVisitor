@@ -61,9 +61,9 @@ public class NearMessageDialog extends Dialog {
 
         tv_address.setText(address);
         if (number!=null && !number.equals("")){
-            tv_phone.setText(number);
+            tv_phone.setText("联系方式："+number);
         }else {
-            tv_phone.setText("未知");
+            tv_phone.setText("联系方式："+"未知");
         }
 
         if (isBus){

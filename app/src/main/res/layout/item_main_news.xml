@@ -41,17 +41,27 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_message"
+    <LinearLayout
+        android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="15dp"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:text="郑州市我国重要的信用示范基地，华北地区的重要中心城市。实施要深入贯彻党额度十八大和十八届三中、五中、六中全会及中央城镇化工作会议、中央城市......"
-        android:textColor="@color/cr66"
-        android:textSize="12sp" />
+        android:layout_weight="1">
+        <ImageView
+            android:id="@+id/image_info"
+            android:layout_marginRight="15dp"
+            android:layout_width="90dp"
+            android:layout_height="60dp"/>
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:text="郑州市我国重要的信用示范基地，华北地区的重要中心城市。实施要深入贯彻党额度十八大和十八届三中、五中、六中全会及中央城镇化工作会议、中央城市......"
+            android:textColor="@color/cr66"
+            android:textSize="12sp" />
+    </LinearLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"

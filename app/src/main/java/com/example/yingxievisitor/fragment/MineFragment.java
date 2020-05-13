@@ -65,10 +65,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         userName = SPUtils.getString(mActivity, "login_user");
         if (SPUtils.getBoolean(mActivity, "loginStatus")) {
             ll_logout.setVisibility(View.VISIBLE);
+            ll_feedback.setVisibility(View.VISIBLE);
             ll_change_pass.setVisibility(View.VISIBLE);
             tv_userName.setText(userName);
         } else {
             ll_logout.setVisibility(View.GONE);
+            ll_feedback.setVisibility(View.GONE);
             ll_change_pass.setVisibility(View.GONE);
             tv_userName.setText("登录/注册");
         }
@@ -137,6 +139,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                         tv_userName.setText("登录/注册");
                         ll_logout.setVisibility(View.GONE);
                         ll_change_pass.setVisibility(View.GONE);
+                        ll_feedback.setVisibility(View.GONE);
                         ToastUtils.show("退出成功");
                     }
                 });
@@ -162,7 +165,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                             double VersionName = Double.valueOf(PackageUtils.getVersionName(mActivity));
                             double code = Double.valueOf(gmBean.getData().toString());
                             if (VersionName < code) {
-                                upDate(gmBean.getData().toString());
+                                upDate(code);
                             }else {
                                 ToastUtils.show("已经是最新版本");
                             }
@@ -176,7 +179,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
      * 去更新
      */
 
-    private void upDate(String version) {
+    private void upDate(final Double code) {
         String apkUrl = AppUrl.BaseURLTest2+AppUrl.DownloadApk;
 //        String apkUrl = "http://118.24.148.250:8080/yk/update_signed.apk";
         String updateTitle = "发现新版本";
@@ -185,39 +188,23 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         updateConfig.setCheckWifi(true);
         updateConfig.isShowNotification();
         updateConfig.setAlwaysShowDownLoadDialog(true);
+        updateConfig.setNotifyImgRes(R.mipmap.ic_launcher);
 
         UiConfig uiConfig = new UiConfig();
-        uiConfig.setUiType(UiType.PLENTIFUL);
+        uiConfig.setUiType(UiType.CUSTOM);
+        uiConfig.setCustomLayoutId(R.layout.view_update_dialog_custom);
+
         UpdateAppUtils.getInstance()
                 .apkUrl(apkUrl)
                 .updateTitle(updateTitle)
                 .updateContent(updateContent)
                 .uiConfig(uiConfig)
                 .updateConfig(updateConfig)
-                .setUpdateDownloadListener(new UpdateDownloadListener() {
+                .setOnInitUiListener(new OnInitUiListener() {
                     @Override
-                    public void onStart() {
-                        Log.e("fhxx", "开始");
-                    }
-
-                    @Override
-                    public void onDownload(int i) {
-                        Log.e("fhxx", "下载中" + i);
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        Log.e("fhxx", "完成");
-                        ToastUtils.show("下载完成");
-
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-                        Log.e("fhxx", "错误");
-                        ToastUtils.show("下载失败");
-
-
+                    public void onInitUpdateUi(View view, UpdateConfig updateConfig, UiConfig uiConfig) {
+                        TextView tv_code =view.findViewById(R.id.tv_code);
+                        tv_code.setText("V"+code);
                     }
                 })
                 .update();

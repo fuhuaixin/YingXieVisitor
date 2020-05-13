@@ -84,7 +84,25 @@ public class NewsFragment extends BaseFragment {
         for (int i = 0; i < URLS.length; i++) {
             bannerList.add(URLS[i]);
         }
-        refreshLayout.setEnableRefresh(false);
+
+        new_recycle.setLayoutManager(new LinearLayoutManager(mActivity));
+        mainNewsAdapter =new MainNewsAdapter(R.layout.item_main_news);
+        new_recycle.setAdapter(mainNewsAdapter);
+        mainNewsAdapter.setNewData(newsBeanList);
+        mainNewsAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()){
+                    case R.id.ll_item:
+                        Intent intent = new Intent(mActivity, WebActivity.class);
+                        intent.putExtra("webUrl",AppUrl.NewsBase+newsBeanList.get(position).getNewsId());
+                        intent.putExtra("webTitle","新闻");
+                        startActivity(intent);
+                        break;
+                }
+            }
+        });
+//        refreshLayout.setEnableRefresh(false);
         getNews("zhengce",page);
         setBanner();
     }
@@ -129,7 +147,6 @@ public class NewsFragment extends BaseFragment {
                 }else if (chooseType==2){
                     getNews("pianqu",page) ;
                 }
-                refreshLayout.finishLoadMore(true);
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -141,7 +158,6 @@ public class NewsFragment extends BaseFragment {
                 }else if (chooseType==2){
                     getNews("pianqu",page) ;
                 }
-                refreshLayout.finishLoadMore(true);
             }
         });
     }
@@ -183,29 +199,6 @@ public class NewsFragment extends BaseFragment {
 
 
     /**
-     * 设置recycle
-     */
-    private void getNewsData(){
-        new_recycle.setLayoutManager(new LinearLayoutManager(mActivity));
-        mainNewsAdapter =new MainNewsAdapter(R.layout.item_main_news,newsBeanList);
-        new_recycle.setAdapter(mainNewsAdapter);
-        mainNewsAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
-                    case R.id.ll_item:
-                        Intent intent = new Intent(mActivity, WebActivity.class);
-                        intent.putExtra("webUrl",AppUrl.NewsBase+newsBeanList.get(position).getNewsId());
-                        intent.putExtra("webTitle","新闻");
-                        startActivity(intent);
-                        break;
-                }
-            }
-        });
-        mainNewsAdapter.notifyDataSetChanged();
-    }
-
-    /**
      * 获取新闻
      */
     private void getNews(String type,int page){
@@ -218,21 +211,23 @@ public class NewsFragment extends BaseFragment {
                 .execute(new SimpleCallBack<String>() {
                     @Override
                     public void onError(ApiException e) {
-
                     }
 
                     @Override
                     public void onSuccess(String s) {
+                        refreshLayout.finishLoadMore();
+                        refreshLayout.finishRefresh();
                         NewsBean newsBean = JSON.parseObject(s, NewsBean.class);
                         if (newsBean.isStatus()&&newsBean!=null){
                             List<NewsBean.DataBean.ListBean> list = newsBean.getData().getList();
                             for (int i = 0; i < list.size(); i++) {
                                 newsBeanList.add(new MainNewsBean(list.get(i).getTitle(),
                                         list.get(i).getUpdatetime(),
-                                        list.get(i).getAbstractX(),
-                                        list.get(i).getNewid()));
+                                        list.get(i).getSummary(),
+                                        list.get(i).getNewid(),
+                                        list.get(i).getImg()));
                             }
-                            getNewsData();
+                            mainNewsAdapter.notifyDataSetChanged();
                         }
                     }
                 });

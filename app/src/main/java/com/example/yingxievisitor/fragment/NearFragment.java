@@ -41,6 +41,7 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
@@ -81,7 +82,7 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
     private ImageView imageBack, image_search, image_add_zoom, image_lose_zoom;
     private TextView tvTitle;
     private LinearLayout ll_into;
-    private MapView mapView = null;
+    private TextureMapView mapView = null;
     private BaiduMap mBaiduMap;
     private LocationClient mLocationClient;
     private LinearLayout ll_find, ll_traffic, ll_main_location;
@@ -200,6 +201,8 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
         mBaiduMap = mapView.getMap();
 
         mBaiduMap.setMyLocationEnabled(true);
+        UiSettings uiSettings = mBaiduMap.getUiSettings();
+        uiSettings.setCompassEnabled(false);
 //        mBaiduMap.setMyLocationConfiguration(myLocationConfiguration);
         //定位初始化
         mLocationClient = new LocationClient(getContext());
@@ -327,7 +330,7 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
                             .fromResource(R.mipmap.icon_near_bus_location);
                 } else {
                     bitmap = BitmapDescriptorFactory
-                            .fromResource(R.mipmap.icon_near_location_red_little);
+                            .fromResource(R.mipmap.icon_near_location_red_big);
                 }
                 //遍历所有POI，找到类型为公交线路的POI
                 for (PoiInfo poi : poiResult.getAllPoi()) {
@@ -388,7 +391,7 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
                 return false;
             }
             Boolean isbus = false;
-
+            busList.clear();
             Bundle extraInfo = marker.getExtraInfo();
             String title = extraInfo.getString("title");
             String address = extraInfo.getString("address");
@@ -406,7 +409,7 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
                 isbus = false;
             }
 
-            NearMessageDialog nearMessageDialog = new NearMessageDialog(mActivity, title, address, number, isbus);
+            final NearMessageDialog nearMessageDialog = new NearMessageDialog(mActivity, title, address, number, isbus);
             nearMessageDialog.show();
             Window window = nearMessageDialog.getWindow();
             WindowManager.LayoutParams lp = window.getAttributes();
@@ -423,6 +426,7 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                     switch (view.getId()) {
                         case R.id.ll_item:
+                            nearMessageDialog.dismiss();
                             getBusMessage(busList.get(position));
                             break;
                     }
@@ -497,6 +501,9 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
     private OnGetBusLineSearchResultListener onGetBusLineSearchResultListener = new OnGetBusLineSearchResultListener() {
         @Override
         public void onGetBusLineResult(BusLineResult result) {
+            for (int i = 0; i <result.getStations().size() ; i++) {
+                Log.e("fhxx  线路",result.getStations().get(i).getTitle());
+            }
             if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
 
                 ToastUtils.show("抱歉，未找到结果");
@@ -508,7 +515,6 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
             mBusLineOverlay.setData(result);
             mBusLineOverlay.addToMap();
             mBusLineOverlay.zoomToSpan();
-            ToastUtils.show(result.getBusLineName());
             isBusMarker = true;
         }
     };

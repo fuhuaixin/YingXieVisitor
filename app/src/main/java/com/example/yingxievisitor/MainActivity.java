@@ -72,6 +72,9 @@ public class MainActivity extends BaseActivity {
                 if (postion==2){
                     rgMain.check(R.id.rb_near);
                     switchFragment(tempFragment,new NearFragment());
+                }else if (postion==3){
+                    rgMain.check(R.id.rb_mine);
+                    switchFragment(tempFragment,new MineFragment());
                 }
 
             }

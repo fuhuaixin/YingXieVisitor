@@ -6,12 +6,22 @@ public class MainNewsBean {
     String time ="";
     String message ="";
     String newsId ="";
+    String img="";
 
-    public MainNewsBean(String title, String time, String message,String newsId) {
+    public MainNewsBean(String title, String time, String message,String newsId,String img) {
         this.title = title;
         this.time = time;
         this.message = message;
         this.newsId = newsId;
+        this.img =img;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 
     public String getTitle() {

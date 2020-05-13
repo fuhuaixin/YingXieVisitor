@@ -47,7 +47,7 @@ import java.util.List;
 public class HomeFragment extends BaseFragment implements View.OnClickListener{
 
     private TextView tv_if_wifi,tv_wifi_name;
-    private ImageView tv_chief_public,image_traffic,image_3d;
+    private ImageView tv_chief_public,image_traffic,image_3d,image_mine_header;
     private Banner home_banner;
     private LinearLayout llOpenWifi,ll_find_job,ll_used_car,ll_find_home,ll_used,ll_service;
     private WifiManager wifiManager; //WifiManager
@@ -104,6 +104,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         image_traffic =view.findViewById(R.id.image_traffic);
         image_3d =view.findViewById(R.id.image_3d);
         marqueeView =view.findViewById(R.id.marqueeView);
+        image_mine_header =view.findViewById(R.id.image_mine_header);
         wifiManager = (WifiManager) mActivity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
     }
 
@@ -127,6 +128,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         ll_service.setOnClickListener(this);
         image_traffic.setOnClickListener(this);
         image_3d.setOnClickListener(this);
+        image_mine_header.setOnClickListener(this);
     }
 
 
@@ -221,6 +223,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
             case R.id.image_3d:
                 toWeb("三维实景",AppUrl.BaseURLTest2+"zhjd/earthstreet.html");
                 break;
+            case R.id.image_mine_header:
+                GlobalParms.sChangeFragment.changge(3);
+                break;
         }
     }
 
@@ -298,15 +303,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
                     public void onSuccess(String s) {
                         EnvironmentBean environmentBean = JSON.parseObject(s, EnvironmentBean.class);
 
-                        if (environmentBean.isStatus()&&environmentBean.getData()!=null&&!environmentBean.getData().equals("")) {
-
+                        if (environmentBean.isStatus()&&environmentBean.getData().getMonitor()!=null) {
                             EnvironmentBean.DataBean.MonitorBean monitor = environmentBean.getData().getMonitor();
-                            EnvironmentBean.DataBean.WeatherBean weather = environmentBean.getData().getWeather();
-                            tv_tem.setText(weather.getTem() + "℃");
-                            tv_windirection.setText(weather.getWin());
-                            tv_humidity.setText(weather.getHumidity());
-                            tv_pm.setText(weather.getAir_pm25());
-                            tv_rainvalue.setText(monitor.getRainvalue());
+                            tv_tem.setText(monitor.getTemperature() + "℃");
+                            tv_windirection.setText(monitor.getWindirection());
+                            tv_humidity.setText(monitor.getHumidity());
+                            tv_pm.setText(monitor.getPm25()+"μg");
+                            tv_rainvalue.setText(monitor.getRainvalue()+"mm");
 
                         }
                     }
