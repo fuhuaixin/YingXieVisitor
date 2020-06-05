@@ -1,5 +1,6 @@
 package com.example.yingxievisitor.activity;
 
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -37,7 +38,7 @@ public class WebActivity extends BaseActivity {
         tvTitle.setText(getIntent().getStringExtra("webTitle"));
 
         url = getIntent().getStringExtra("webUrl");
-
+        Log.e("fhxx 新闻",getIntent().getStringExtra("webUrl")+"-----"+getIntent().getStringExtra("webTitle"));
         //声明WebSettings子类
         WebSettings webSettings = webView.getSettings();
 

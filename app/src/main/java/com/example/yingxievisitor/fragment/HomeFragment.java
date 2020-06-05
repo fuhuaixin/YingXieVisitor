@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
@@ -46,7 +47,7 @@ import java.util.List;
 
 public class HomeFragment extends BaseFragment implements View.OnClickListener{
 
-    private TextView tv_if_wifi,tv_wifi_name;
+    private TextView tv_if_wifi,tv_wifi_name,tv_title;
     private ImageView tv_chief_public,image_traffic,image_3d,image_mine_header;
     private Banner home_banner;
     private LinearLayout llOpenWifi,ll_find_job,ll_used_car,ll_find_home,ll_used,ll_service;
@@ -104,6 +105,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         image_traffic =view.findViewById(R.id.image_traffic);
         image_3d =view.findViewById(R.id.image_3d);
         marqueeView =view.findViewById(R.id.marqueeView);
+        tv_title =view.findViewById(R.id.tv_title);
         image_mine_header =view.findViewById(R.id.image_mine_header);
         wifiManager = (WifiManager) mActivity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
     }
@@ -129,6 +131,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         image_traffic.setOnClickListener(this);
         image_3d.setOnClickListener(this);
         image_mine_header.setOnClickListener(this);
+        tv_title.setOnClickListener(this);
     }
 
 
@@ -136,7 +139,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
      * 设置banner 和 文字跑马灯
      */
     private void setBanner(){
-
+        tv_title.setText(list.get(0).getTitle());
         marqueeView.startWithList(newsList);
         marqueeView.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
             @Override
@@ -154,7 +157,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
                 .setIndicatorColor(Color.GRAY)
                 .setIndicatorSelectorColor(Color.WHITE);
 
-        home_banner.setIndicator(indicatorView)
+        home_banner.setIndicator(null)
                 .setAutoPlay(true)
                 .setAutoTurningTime(2000)
 //                .setPageMargin(SizeUtils.dp2px(20), SizeUtils.dp2px(10))
@@ -177,6 +180,23 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
                 .setPageTransformer(true,new ScaleInTransformer())
                 .setRoundCorners(10f)
                 .setPages(bannerList);
+        /**
+         * 自动轮播监听
+         */
+        home_banner.setOuterPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                tv_title.setText(list.get(position).getTitle());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
 

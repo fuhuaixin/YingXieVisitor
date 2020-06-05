@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/ic_login_bg"
@@ -7,28 +7,27 @@
     android:orientation="vertical">
 
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:src="@mipmap/icon_logo" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/ll_login"
+        android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
-        android:text="智慧街道三维可视化平台"
+        android:layout_marginBottom="30dp"
+        android:text="智慧英协欢迎您"
         android:textColor="@color/white"
         android:textSize="21sp"
         android:textStyle="bold" />
 
     <LinearLayout
+        android:id="@+id/ll_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="25dp"
-        android:layout_marginTop="30dp"
         android:layout_marginRight="25dp"
-        android:background="@mipmap/icon_password_bg"
+        android:background="@drawable/shape_login_wihte"
         android:orientation="vertical"
         android:padding="30dp">
 
@@ -36,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="登录"
-            android:textColor="@color/white"
+            android:textColor="@color/cr21"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -45,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="输入用户名"
-            android:textColor="@color/white"
+            android:textColor="@color/tv66"
             android:textSize="12sp" />
 
         <LinearLayout
@@ -53,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="33dp"
             android:layout_marginTop="5dp"
-            android:background="@color/white">
+            android:background="@drawable/shape_login_ll_bg">
 
             <EditText
                 android:id="@+id/et_user"
@@ -90,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:text="输入密码"
-            android:textColor="@color/white"
+            android:textColor="@color/tv66"
             android:textSize="12sp" />
 
         <LinearLayout
@@ -98,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="33dp"
             android:layout_marginTop="5dp"
-            android:background="@color/white">
+            android:background="@drawable/shape_login_ll_bg">
 
             <EditText
                 android:id="@+id/et_password"
@@ -138,25 +137,25 @@
                 android:id="@+id/tv_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp"
+                android:paddingTop="15dp"
                 android:text="注册账号"
-                android:textColor="@color/crE6" />
+                android:textColor="@color/cr21" />
 
             <TextView
                 android:id="@+id/tv_forget_pass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:paddingTop="10dp"
+                android:paddingTop="15dp"
                 android:text="忘记密码"
-                android:textColor="@color/crE6" />
+                android:textColor="@color/cr21" />
         </RelativeLayout>
 
         <Button
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="35dp"
             android:background="@drawable/shape_login_btn"
             android:gravity="center"
             android:paddingTop="13dp"
@@ -166,4 +165,4 @@
             android:textSize="16sp" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

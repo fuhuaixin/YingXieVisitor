@@ -45,12 +45,28 @@
                 android:text="home"
                 android:visibility="gone" />
 
-
-            <com.to.aboomy.banner.Banner
-                android:id="@+id/home_banner"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="20dp" />
+                android:layout_height="wrap_content">
+                <com.to.aboomy.banner.Banner
+                    android:id="@+id/home_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="20dp" />
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:textColor="@color/white"
+                    android:padding="10dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentBottom="true"
+                    android:text=""
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"

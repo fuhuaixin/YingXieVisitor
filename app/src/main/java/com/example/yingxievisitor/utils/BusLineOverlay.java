@@ -25,6 +25,7 @@ public class BusLineOverlay extends OverlayManager {
 
     private BusLineResult mBusLineResult = null;
     private BaiduMap mBaiduMap;
+
     /**
      * 构造函数
      *
@@ -32,7 +33,7 @@ public class BusLineOverlay extends OverlayManager {
      */
     public BusLineOverlay(BaiduMap baiduMap) {
         super(baiduMap);
-        this.mBaiduMap=baiduMap;
+        this.mBaiduMap = baiduMap;
     }
 
     /**
@@ -56,17 +57,20 @@ public class BusLineOverlay extends OverlayManager {
 
             overlayOptionses.add(new MarkerOptions()
                     .position(station.getLocation())
-                    .zIndex(10)
-                    .anchor(0.5f, 0.5f)
+                    .zIndex(1)
+                    .anchor(0.2f, 0.2f)
                     .icon(BitmapDescriptorFactory
                             .fromResource(R.mipmap.icon_bus_circle)));
 
             overlayOptionses.add(new TextOptions()
-                    .text(station.getTitle()+"站")
+                    .text("-->" + station.getTitle() + "站")
                     .position(station.getLocation())
-                    .fontSize(35)
-            .rotate(30)
-            .align(10,10));
+                    .fontSize(36)
+                    .rotate(30)
+                    .bgColor(0xAAE1E1E1)
+                    .fontColor(0xFFFFFFFF)
+                    .align(TextOptions.ALIGN_LEFT, TextOptions.ALIGN_LEFT)
+                    .zIndex(2));
 
 
         }

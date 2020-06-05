@@ -198,9 +198,11 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
     private void initMap() {
         mapView.removeViewAt(1);
         mapView.showZoomControls(false);
+
         mBaiduMap = mapView.getMap();
 
         mBaiduMap.setMyLocationEnabled(true);
+
         UiSettings uiSettings = mBaiduMap.getUiSettings();
         uiSettings.setCompassEnabled(false);
 //        mBaiduMap.setMyLocationConfiguration(myLocationConfiguration);
@@ -398,7 +400,7 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
             String number = extraInfo.getString("number");
             double lat = extraInfo.getDouble("lat");
             double lng = extraInfo.getDouble("lng");
-            if (isBus.equals("公交站")) {
+            if (isBus.equals("公交站")||isBus.equals("公交")) {
                 isbus = true;
                 String[] strs = address.split(";");
                 Log.e("fhxx near dialog ", strs.length + " --- ");
@@ -439,7 +441,7 @@ public class NearFragment extends BaseFragment implements View.OnClickListener {
      * 定位监听
      */
     private LatLng myLatlng;
-    private BDAbstractLocationListener mListener = new BDAbstractLocationListener() {
+    private BDAbstractLocationListener  mListener = new BDAbstractLocationListener() {
         @Override
         public void onReceiveLocation(BDLocation location) {
             //mapView 销毁后不在处理新接收的位置

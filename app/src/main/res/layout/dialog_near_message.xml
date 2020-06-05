@@ -1,101 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="190dp">
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:background="@drawable/shape_main_search_bg"
+    >
 
-    <LinearLayout
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:padding="10dp"
-        android:background="@drawable/shape_main_search_bg"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_title"
+        android:text="华悦时间广场"
+        android:textColor="@color/cr33"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp">
-
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_margin="10dp"
-            android:text="华悦时间广场"
-            android:textColor="@color/cr33"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
+        android:layout_marginBottom="10dp"/>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/ll_no_bus"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <LinearLayout
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_marginLeft="10dp"
-                    android:src="@mipmap/icon_near_dialog_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:id="@+id/tv_address"
-                    android:layout_margin="10dp"
-                    android:textSize="14sp"
-                    android:textColor="@color/cr66"
-                    android:text="地址"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content">
 
+
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/ll_no_bus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/icon_near_dialog_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tv_address"
+                        android:layout_margin="10dp"
+                        android:textSize="14sp"
+                        android:textColor="@color/cr66"
+                        android:text="地址"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/icon_near_dialog_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/tv_phone"
+                        android:layout_margin="10dp"
+                        android:textSize="14sp"
+                        android:textColor="@color/cr66"
+                        android:text="电话"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/icon_near_dialog_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_margin="10dp"
+                        android:textSize="14sp"
+                        android:textColor="@color/cr66"
+                        android:text="营业时间：未知"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
-                android:gravity="center_vertical"
+                android:id="@+id/ll_bus"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_marginLeft="10dp"
-                    android:src="@mipmap/icon_near_dialog_phone"
-                    android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycle_bus"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-                <TextView
-                    android:id="@+id/tv_phone"
-                    android:layout_margin="10dp"
-                    android:textSize="14sp"
-                    android:textColor="@color/cr66"
-                    android:text="电话"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_marginBottom="20dp"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_marginLeft="10dp"
-                    android:src="@mipmap/icon_near_dialog_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:layout_margin="10dp"
-                    android:textSize="14sp"
-                    android:textColor="@color/cr66"
-                    android:text="营业时间：未知"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
             </LinearLayout>
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_bus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycle_bus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

@@ -28,6 +28,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:layout_marginTop="3dp"
                 android:layout_width="110dp"
                 android:layout_height="90dp"
                 android:src="@mipmap/ic_home_wifi_center" />

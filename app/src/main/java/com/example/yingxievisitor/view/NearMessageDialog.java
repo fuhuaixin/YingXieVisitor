@@ -3,19 +3,16 @@ package com.example.yingxievisitor.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.yingxievisitor.R;
 import com.example.yingxievisitor.adapter.NearBusMessAdapter;
-import com.example.yingxievisitor.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +72,13 @@ public class NearMessageDialog extends Dialog {
             for (int i = 0; i < strs.length; i++) {
                 busList.add(strs[i]);
             }
+            ViewGroup.LayoutParams layoutParams = recycle_bus.getLayoutParams();
+            if (busList.size()>3){
+                layoutParams.height =450;
+            }else {
+                layoutParams.height =LinearLayout.LayoutParams.WRAP_CONTENT;
+            }
+            recycle_bus.setLayoutParams(layoutParams);
         }else {
             tv_title.setText(title);
             ll_bus.setVisibility(View.GONE);
