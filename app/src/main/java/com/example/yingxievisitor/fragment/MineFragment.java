@@ -3,15 +3,18 @@ package com.example.yingxievisitor.fragment;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.example.yingxievisitor.R;
+import com.example.yingxievisitor.activity.AboutActivity;
 import com.example.yingxievisitor.activity.ChangePassActivity;
 import com.example.yingxievisitor.activity.FeedbackActivity;
 import com.example.yingxievisitor.activity.LoginActivity;
+import com.example.yingxievisitor.activity.WebActivity;
 import com.example.yingxievisitor.app.AppUrl;
 import com.example.yingxievisitor.base.BaseFragment;
 import com.example.yingxievisitor.bean.GMBean;
@@ -34,7 +37,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
     private TextView tvTitle, tv_userName;
     private ImageView imageBack;
-    private LinearLayout ll_change_pass, ll_feedback, ll_check, ll_logout, ll_tologin;
+    private LinearLayout ll_change_pass, ll_feedback, ll_check, ll_logout, ll_tologin,ll_about,ll_help;
 
     private UpDateDialog upDateDialog;
 
@@ -56,6 +59,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         ll_logout = view.findViewById(R.id.ll_logout);
         tv_userName = view.findViewById(R.id.tv_userName);
         ll_tologin = view.findViewById(R.id.ll_tologin);
+        ll_about = view.findViewById(R.id.ll_about);
+        ll_help = view.findViewById(R.id.ll_help);
         imageBack.setVisibility(View.GONE);
     }
 
@@ -93,6 +98,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         ll_check.setOnClickListener(this);
         ll_tologin.setOnClickListener(this);
         ll_logout.setOnClickListener(this);
+        ll_about.setOnClickListener(this);
+        ll_help.setOnClickListener(this);
     }
 
     @Override
@@ -116,6 +123,15 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.ll_logout:
                 logout(tv_userName.getText().toString());
+                break;
+            case R.id.ll_about:
+                startActivity(new Intent(mActivity, AboutActivity.class));
+                break;
+            case R.id.ll_help:
+                Intent intent = new Intent(mActivity, WebActivity.class);
+                intent.putExtra("webUrl", "file:///android_asset/help.html");
+                intent.putExtra("webTitle", "帮助中心");
+                startActivity(intent);
                 break;
 
         }

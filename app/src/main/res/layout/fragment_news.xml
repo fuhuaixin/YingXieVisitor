@@ -6,7 +6,8 @@
     android:background="@color/white">
 
 
-    <include layout="@layout/layout_activity_title" />
+    <include layout="@layout/layout_activity_title"
+        android:visibility="gone"/>
 
     <ImageView
         android:scaleType="fitXY"

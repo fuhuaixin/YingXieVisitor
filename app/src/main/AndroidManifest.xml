@@ -82,6 +82,8 @@
         <!--意见反馈-->
         <activity android:name=".activity.FeedbackActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".activity.AboutActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <activity android:name=".activity.Te"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
