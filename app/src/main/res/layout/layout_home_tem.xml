@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <TextView
-        android:textColor="@color/cr21"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:text="环境监测"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp" />
+        android:layout_marginBottom="15dp"
+        android:text="环境监测"
+        android:textColor="@color/cr21"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
     <LinearLayout
         android:id="@+id/headerMesTop"
         android:layout_width="match_parent"
@@ -34,17 +36,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:text="0℃"
-                android:textSize="14sp"
-                android:textColor="@color/cr21"/>
+                android:textColor="@color/cr21"
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="温度"
-                android:textSize="12sp"
-                android:textColor="@color/cr66"/>
+                android:textColor="@color/cr66"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -64,17 +68,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:text="0"
-                android:textSize="14sp"
-                android:textColor="@color/cr21" />
+                android:textColor="@color/cr21"
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="风向"
-                android:textSize="12sp"
-                android:textColor="@color/cr66" />
+                android:textColor="@color/cr66"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -94,17 +100,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:text="0"
-                android:textSize="14sp"
-                android:textColor="@color/cr21"/>
+                android:textColor="@color/cr21"
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="湿度"
-                android:textSize="12sp"
-                android:textColor="@color/cr66"/>
+                android:textColor="@color/cr66"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -124,17 +132,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:text="0μg"
-                android:textSize="14sp"
-                android:textColor="@color/cr21" />
+                android:textColor="@color/cr21"
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="PM2.5"
-                android:textSize="12sp"
-                android:textColor="@color/cr66" />
+                android:textColor="@color/cr66"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -154,17 +164,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:text="0mm"
-                android:textSize="14sp"
-                android:textColor="@color/cr21"/>
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="0"
+                android:textColor="@color/cr21"
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="降雨量"
-                android:textSize="12sp"
-                android:textColor="@color/cr66"/>
+                android:textColor="@color/cr66"
+                android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

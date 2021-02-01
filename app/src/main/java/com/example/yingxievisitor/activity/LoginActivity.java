@@ -34,7 +34,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private Button btn_login; //登录
     private EditText et_user, et_password; //账号密码
-    private TextView tv_user_null, tv_pass_null,tv_register,tv_forget_pass;
+    private TextView tv_user_null, tv_pass_null,tv_register,tv_forget_pass,tv_jump;
     private LinearLayout ll_user, ll_password;
     private VerifyDialog verifyDialog; //验证弹窗
 
@@ -52,6 +52,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         tv_user_null = (TextView) findViewById(R.id.tv_user_null);
         tv_pass_null = (TextView) findViewById(R.id.tv_pass_null);
         tv_register = (TextView) findViewById(R.id.tv_register);
+        tv_jump = (TextView) findViewById(R.id.tv_jump);
         tv_forget_pass = (TextView) findViewById(R.id.tv_forget_pass);
         ll_user = (LinearLayout) findViewById(R.id.ll_user);
         ll_password = (LinearLayout) findViewById(R.id.ll_password);
@@ -73,6 +74,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         btn_login.setOnClickListener(this);
         tv_register.setOnClickListener(this);
         tv_forget_pass.setOnClickListener(this);
+        tv_jump.setOnClickListener(this);
 
     }
 
@@ -118,6 +120,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.tv_forget_pass:
                 startActivity(new Intent(LoginActivity.this,ForgetPassActivity.class));
+                break;
+            case R.id.tv_jump:
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();
                 break;
         }
     }

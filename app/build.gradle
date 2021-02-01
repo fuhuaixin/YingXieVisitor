@@ -65,7 +65,6 @@ dependencies {
     implementation files('libs/BaiduLBS_Android.jar')
     //网络请求
     implementation 'com.zhouyou:rxeasyhttp:2.1.5'
-    implementation 'com.alibaba:fastjson:1.1.70.android'
     implementation 'com.alibaba:fastjson:1.2.55'
     //文字垂直跑马灯 https://github.com/sunfusheng/MarqueeView
     implementation 'com.sunfusheng:MarqueeView:1.4.1'

@@ -3,48 +3,46 @@ package com.example.yingxievisitor.app;
 public class AppUrl {
 
 
-//    public static final String BaseURLTest2 = "http://192.168.10.50:8080/"; //测试(测试环境)2
+    //    public static final String BaseURLTest2 = "http://192.168.10.50:8080/"; //测试(测试环境)2
     public static final String BaseURLTest2 = "http://117.160.157.90:8055/"; //正式
 
     //图片前缀
-    public static final String ImageBase = BaseURLTest2+"Data/yxlzhjd/smimg/";
-//    public static final String ImageBase = "http://111.6.98.253:8072/Datas/img/";
+    public static final String ImageBase = BaseURLTest2 + "Data/yxlzhjd/smimg/";
+    //    public static final String ImageBase = "http://111.6.98.253:8072/Datas/img/";
     //新闻前缀
-    public static final String NewsBase = BaseURLTest2+"zhjd/news.html?id=";
-//    public static final String NewsBase = "http://111.6.98.253:8072/zhjd/news.html?id=";
+    public static final String NewsBase = BaseURLTest2 + "zhjd/news.html?id=";
+    //    public static final String NewsBase = "http://111.6.98.253:8072/zhjd/news.html?id=";
     //办事指南前缀
-    public static final String OnlineWorkBase =BaseURLTest2+ "zhjd/onlinework.html?id=";
+    public static final String OnlineWorkBase = BaseURLTest2 + "zhjd/onlinework.html?id=";
 //    public static final String OnlineWorkBase = "http://111.6.98.253:8072/zhjd/onlinework.html?id=";
 
     //app下载
-    public static final String DownloadApk ="zhjd/apk/yxlzhjd-client.apk";
+    public static final String DownloadApk = "zhjd/apk/yxlzhjd-client.apk";
 
-    public static final String basePath ="zhjd/server/";
+    public static final String basePath = "zhjd/server/";
 
     //实时环境信息接口
-    public static final String RealEnvironment = basePath+"env/realEnvironment";
+    public static final String RealEnvironment = basePath + "env/realEnvironment";
     //获取新闻列表
-    public static final String GetNewsList =basePath+"app/getNewsList";
+    public static final String GetNewsList = basePath + "app/getNewsList";
     //获取在线办事列表
-    public static final String GovinfoList =basePath+"govinfo/list";
+    public static final String GovinfoList = basePath + "govinfo/list";
 
 
     //用户注册检查
-    public static final String CheckExist =basePath+"appUser/checkExist";
+    public static final String CheckExist = basePath + "appUser/checkExist";
     //用户注册
-    public static final String Register =basePath+"appUser/register";
+    public static final String Register = basePath + "appUser/register";
     //用户登录
-    public static final String Login =basePath+"appUser/login";
+    public static final String Login = basePath + "appUser/login";
     //用户退出
-    public static final String Logout =basePath+"appUser/logout";
+    public static final String Logout = basePath + "appUser/logout";
     //用户重置密码
-    public static final String ResetPassword =basePath+"appUser/resetPassword";
+    public static final String ResetPassword = basePath + "appUser/resetPassword";
     //用户提交反馈
-    public static final String FeedbackSubmit =basePath+"appFeedback/submit";
+    public static final String FeedbackSubmit = basePath + "appFeedback/submit";
     //检查app版本更新
-    public static final String GetLastVersion =basePath+"app/getLastVersion";
-
-
+    public static final String GetLastVersion = basePath + "app/getLastVersion";
 
 
 }
